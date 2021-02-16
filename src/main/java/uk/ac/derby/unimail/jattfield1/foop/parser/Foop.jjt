@@ -1,0 +1,191 @@
+
+options {
+  LOOKAHEAD = 1;
+    CHOICE_AMBIGUITY_CHECK = 2;
+    OTHER_AMBIGUITY_CHECK = 1;
+    STATIC = false;
+    DEBUG_PARSER = false;
+    DEBUG_LOOKAHEAD = false;
+    DEBUG_TOKEN_MANAGER = false;
+    ERROR_REPORTING = true;
+    JAVA_UNICODE_ESCAPE = false;
+    UNICODE_INPUT = false;
+    IGNORE_CASE = false;
+    USER_TOKEN_MANAGER = false;
+    USER_CHAR_STREAM = false;
+    BUILD_PARSER = true;
+    BUILD_TOKEN_MANAGER = true;
+    SANITY_CHECK = true;
+    FORCE_LA_CHECK = false;
+    MULTI = true;
+    VISITOR = true;
+    NODE_DEFAULT_VOID = true;
+    NODE_EXTENDS = "uk.ac.derby.unimail.jattfield1.foop.lang.BaseASTNode";
+    NODE_PACKAGE = "uk.ac.derby.unimail.jattfield1.foop.parser.ast";
+    JJTREE_OUTPUT_DIRECTORY = "ast";
+}
+
+PARSER_BEGIN(Foop)
+package uk.ac.derby.unimail.jattfield1.foop.parser;
+
+public class Foop {
+}
+
+PARSER_END(Foop)
+
+/* whitespace */
+SKIP : {
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+/* comments */
+SPECIAL_TOKEN : {
+    <COMMENT: ">>" (~["\n", "\r"])* "<<" >
+}
+
+/* reserved words */
+TOKEN [IGNORE_CASE]: {
+    < OR: "||" >
+   |< AND: "&&" >
+   |< NOT: "!" >
+   |< TRUE: "true">
+   |< FALSE: "false">
+
+   |< QUIT: "finish">
+}
+
+/* literals */
+TOKEN : {
+    <BOOL_LIT : <TRUE> | <FALSE>>
+|   <INTEGER_LIT : <DECIMAL_LIT>>
+|   <#DECIMAL_LIT: ["1"-"9"] (["1"-"9"])*>
+}
+
+/* identifiers */
+TOKEN : {
+    <CLASS_IDENTIFIER: <UPPERCASE_LETTER> (<LETTER> | <DIGIT> | <UNDERSCORE>)* >
+|   <IDENTIFIER: (<UNDERSCORE>)* <LETTER> (<LETTER> | <DIGIT> | <UNDERSCORE>)*>
+|   <#LETTER: ["A"-"Z", "a"-"z"]>
+|   <#UPPERCASE_LETTER: ["A"-"Z"]>
+|   <#DIGIT: ["0"-"9"]>
+|   <#UNDERSCORE: "_">
+}
+
+/* separators */
+TOKEN : {
+    <BRACKET_L: "(">
+|   <BRACKET_R: ")">
+|   <BRACE_L  : "{">
+|   <BRACE_R  : "}">
+|   <SQU_BRACKET_L: "[">
+|   <SQU_BRACKET_R: "]">
+|   <SEMICOLON: ";">
+|   < COMMA: "," >
+|   < DOT: "." >
+|   < INCREMENT: "++" >
+|   < DECREMENT: "--" >
+}
+
+/* operators */
+TOKEN :
+{
+  < ASSIGN: <EQ> >
+| < PEQ: "+=" >
+| < MEQ: "-=" >
+| < EQ: "=" >
+| < GT: ">" >
+| < LT: "<" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < NE: "!=" >
+| < TERN_IF: "?" >
+| < TERN_ELSE: ":" >
+| < ADD: "+" >
+| < SUB: "-" >
+| < MUL: "*" >
+| < DIV: "/" >
+| < MOD: "%" >
+}
+
+ASTProgram program() #Program :
+{}
+{
+    expression() ";" {return jjtThis;}
+}
+
+void expression() #Expression:
+{}
+{
+      LOOKAHEAD(2) assignment()
+    | arithmaticExpression()
+}
+
+void arithmaticExpression():
+{}
+{
+    multiplicationExpression()
+    (
+      <ADD> multiplicationExpression() #Add(2)
+    | <SUB> multiplicationExpression() #Sub(2)
+    )*
+}
+
+void multiplicationExpression():
+{}
+{
+    unaryExpression()
+    (
+         <MUL> unaryExpression() #Multiply(2)
+        |<DIV> unaryExpression() #Divide(2)
+    )*
+}
+
+void unaryExpression():
+{}
+{
+     <NOT> unaryExpression() #Not(1)
+    |<ADD> unaryExpression() #UnaryPlus(1)
+    |<SUB> unaryExpression() #UnarySub(1)
+    | primaryExpression()
+}
+
+void primaryExpression():
+{}
+{
+    literal()
+    | "(" expression() ")"
+}
+
+void assignment() :
+{}
+{
+    <CLASS_IDENTIFIER> identifier() <ASSIGN> expression() #Assignment(2)
+}
+
+void literal():
+{}
+{
+    integer() | bool()
+}
+
+void identifier() #Identifier :
+{Token t;}
+{
+    t = <IDENTIFIER> { jjtThis.tokenValue = t.image;}
+}
+
+void integer() #Int :
+{Token t;}
+{
+    t = <INTEGER_LIT> { jjtThis.tokenValue = t.image; }
+}
+
+void bool() #Bool :
+{Token t;}
+{
+    t = <BOOL_LIT> { jjtThis.tokenValue = t.image; }
+}
