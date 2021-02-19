@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
+
 public class PrimitiveInt extends AbstractPrimitiveValue {
     private final int boxed;
 
@@ -43,12 +44,12 @@ public class PrimitiveInt extends AbstractPrimitiveValue {
 
     @Override
     public PrimitiveValue unaryPlus() {
-        return null;
+        throw new UnsupportedOperationException("Unary Plus not implemented yet.");
     }
 
     @Override
     public PrimitiveValue unarySubtract() {
-        return null;
+        throw new UnsupportedOperationException("Unary Subtract not implemented yet.");
     }
 
     @Override

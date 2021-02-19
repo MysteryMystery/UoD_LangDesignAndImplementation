@@ -1,5 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
+import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
+
 public abstract class NamedIdentity {
     private final String name;
 
@@ -9,5 +11,12 @@ public abstract class NamedIdentity {
 
     public String getName() {
         return name;
+    }
+
+    public abstract PrimitiveValue getResult();
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

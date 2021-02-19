@@ -8,7 +8,7 @@ public class Foop {
             while(true)
                 foop.program().jjtAccept(new FoopParser(), null);
         } catch (Throwable e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

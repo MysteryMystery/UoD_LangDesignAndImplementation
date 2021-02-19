@@ -120,8 +120,15 @@ ASTProgram program() #Program :
 void expression() #Expression:
 {}
 {
-      LOOKAHEAD(2) assignment()
-    | arithmaticExpression()
+    assignmentExpression()
+}
+
+void assignmentExpression():
+{}
+{
+    <CLASS_IDENTIFIER> identifier() <ASSIGN> arithmaticExpression() #Assignment(2)
+    |
+    arithmaticExpression()
 }
 
 void arithmaticExpression():
@@ -158,12 +165,6 @@ void primaryExpression():
 {
     literal()
     | "(" expression() ")"
-}
-
-void assignment() :
-{}
-{
-    <CLASS_IDENTIFIER> identifier() <ASSIGN> expression() #Assignment(2)
 }
 
 void literal():

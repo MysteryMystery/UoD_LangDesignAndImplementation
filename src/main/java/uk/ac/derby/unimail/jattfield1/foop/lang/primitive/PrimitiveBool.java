@@ -29,12 +29,12 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
 
     @Override
     public PrimitiveValue unaryPlus() {
-        return null;
+        throw new UnsupportedOperationException("Unary Plus not implemented yet.");
     }
 
     @Override
     public PrimitiveValue unarySubtract() {
-        return null;
+        throw new UnsupportedOperationException("Unary Subtract not implemented yet.");
     }
 
     @Override
