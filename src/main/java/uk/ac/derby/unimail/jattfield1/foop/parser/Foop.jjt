@@ -49,20 +49,18 @@ SPECIAL_TOKEN : {
 
 /* reserved words */
 TOKEN [IGNORE_CASE]: {
-    < OR: "||" >
-   |< AND: "&&" >
-   |< NOT: "!" >
+    < OR: "or" >
+   |< AND: "and" >
+   |< NOT: "not" >
+
    |< TRUE: "true">
    |< FALSE: "false">
-
-   |< QUIT: "finish">
 }
 
 /* literals */
 TOKEN : {
-    <BOOL_LIT : <TRUE> | <FALSE>>
-|   <INTEGER_LIT : <DECIMAL_LIT>>
-|   <#DECIMAL_LIT: ["1"-"9"] (["1"-"9"])*>
+    <INTEGER_LIT : <DECIMAL_LIT>>
+|   <#DECIMAL_LIT: ["0"-"9"] (["0"-"9"])*>
 }
 
 /* identifiers */
@@ -93,15 +91,15 @@ TOKEN : {
 /* operators */
 TOKEN :
 {
-  < ASSIGN: <EQ> >
+  < ASSIGN: "=" >
 | < PEQ: "+=" >
 | < MEQ: "-=" >
-| < EQ: "=" >
-| < GT: ">" >
-| < LT: "<" >
-| < LE: "<=" >
-| < GE: ">=" >
-| < NE: "!=" >
+| < EQ: "is" >
+| < GT: "gt" >
+| < LT: "lt" >
+| < LE: "lte" >
+| < GE: "gte" >
+| < NE: "is not" >
 | < TERN_IF: "?" >
 | < TERN_ELSE: ":" >
 | < ADD: "+" >
@@ -111,7 +109,7 @@ TOKEN :
 | < MOD: "%" >
 }
 
-ASTProgram program() #Program :
+ASTProgram program() #Program:
 {}
 {
     expression() ";" {return jjtThis;}
@@ -126,9 +124,42 @@ void expression() #Expression:
 void assignmentExpression():
 {}
 {
+    LOOKAHEAD(2)
     <CLASS_IDENTIFIER> identifier() <ASSIGN> arithmaticExpression() #Assignment(2)
     |
-    arithmaticExpression()
+    reassignmentExpression()
+}
+
+void reassignmentExpression():
+{}
+{
+    identifier() <ASSIGN> arithmaticExpression() #Reassignment(2)
+    | orExpression()
+}
+
+void orExpression() :
+{}
+{
+    andExpression() ( <OR> andExpression() #Or(2) )*
+}
+
+void andExpression() :
+{}
+{
+   comparisonExpression() ( <AND> comparisonExpression() #And(2) )*
+}
+
+void comparisonExpression():
+{}
+{
+    arithmaticExpression() [
+         "=="  arithmaticExpression() #EqualTo(2)
+       | "<>" arithmaticExpression() #NotEqualTo(2)
+       | ">=" arithmaticExpression() #GreaterThanOrEqualTo(2)
+       | "<=" arithmaticExpression() #LessThanOrEqualTo(2)
+       | ">"  arithmaticExpression() #GreaterThan(2)
+       | "<"  arithmaticExpression() #LessThan(2)
+   ]
 }
 
 void arithmaticExpression():
@@ -163,7 +194,8 @@ void unaryExpression():
 void primaryExpression():
 {}
 {
-    literal()
+    identifier()
+    | literal()
     | "(" expression() ")"
 }
 
@@ -188,5 +220,7 @@ void integer() #Int :
 void bool() #Bool :
 {Token t;}
 {
-    t = <BOOL_LIT> { jjtThis.tokenValue = t.image; }
+    t = <TRUE> { jjtThis.tokenValue = t.image; }
+    |
+    t = <FALSE> { jjtThis.tokenValue = t.image; }
 }

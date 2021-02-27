@@ -58,6 +58,11 @@ public class PrimitiveInt extends AbstractPrimitiveValue {
     }
 
     @Override
+    public PrimitiveValue notEqualTo(PrimitiveValue other) {
+        return new PrimitiveBool(other.toInt() != boxed);
+    }
+
+    @Override
     public PrimitiveValue greaterThan(PrimitiveValue other) {
         return new PrimitiveBool(other.toInt() < boxed);
     }
@@ -79,17 +84,17 @@ public class PrimitiveInt extends AbstractPrimitiveValue {
 
     @Override
     public PrimitiveValue or(PrimitiveValue other) {
-        return null;
+        throw new UnsupportedOperationException("cannot or");
     }
 
     @Override
     public PrimitiveValue and(PrimitiveValue other) {
-        return null;
+        throw new UnsupportedOperationException("cannot and");
     }
 
     @Override
     public PrimitiveValue not() {
-        return new PrimitiveInt(boxed * -1);
+        return new PrimitiveInt(~boxed);
     }
 
     @Override

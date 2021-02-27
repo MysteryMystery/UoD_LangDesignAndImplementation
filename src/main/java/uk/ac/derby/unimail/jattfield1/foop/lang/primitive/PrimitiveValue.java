@@ -12,6 +12,7 @@ public interface PrimitiveValue {
 
     // Bool logic
     PrimitiveValue equalTo (PrimitiveValue other);
+    PrimitiveValue notEqualTo (PrimitiveValue other);
     PrimitiveValue greaterThan (PrimitiveValue other);
     PrimitiveValue lessThan (PrimitiveValue other);
     PrimitiveValue greaterThanEqualTo (PrimitiveValue other);

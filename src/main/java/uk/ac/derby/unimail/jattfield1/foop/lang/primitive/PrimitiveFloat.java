@@ -43,6 +43,11 @@ public class PrimitiveFloat extends AbstractPrimitiveValue{
     }
 
     @Override
+    public PrimitiveValue notEqualTo(PrimitiveValue other) {
+        return new PrimitiveBool(boxed != other.toFloat());
+    }
+
+    @Override
     public PrimitiveValue greaterThan(PrimitiveValue other) {
         return null;
     }

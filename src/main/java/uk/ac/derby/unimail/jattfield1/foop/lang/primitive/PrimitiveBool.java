@@ -9,22 +9,22 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
 
     @Override
     public PrimitiveValue add(PrimitiveValue other) {
-        return null;
+        throw new UnsupportedOperationException("Cannot add boolean.");
     }
 
     @Override
     public PrimitiveValue multiply(PrimitiveValue other) {
-        return null;
+        throw new UnsupportedOperationException("Cannot multiply boolean.");
     }
 
     @Override
     public PrimitiveValue divide(PrimitiveValue other) {
-        return null;
+        throw new UnsupportedOperationException("Cannot divide boolean.");
     }
 
     @Override
     public PrimitiveValue subtract(PrimitiveValue other) {
-        return null;
+        throw new UnsupportedOperationException("Cannot subtract boolean.");
     }
 
     @Override
@@ -39,42 +39,47 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
 
     @Override
     public PrimitiveValue equalTo(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(boxed == other.toBool());
+    }
+
+    @Override
+    public PrimitiveValue notEqualTo(PrimitiveValue other) {
+        return new PrimitiveBool(boxed != other.toBool());
     }
 
     @Override
     public PrimitiveValue greaterThan(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(boxed && !other.toBool());
     }
 
     @Override
     public PrimitiveValue lessThan(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(!boxed && other.toBool());
     }
 
     @Override
     public PrimitiveValue greaterThanEqualTo(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(true);
     }
 
     @Override
     public PrimitiveValue lessThanEqualTo(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(true);
     }
 
     @Override
     public PrimitiveValue or(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(boxed || other.toBool());
     }
 
     @Override
     public PrimitiveValue and(PrimitiveValue other) {
-        return null;
+        return new PrimitiveBool(boxed && other.toBool());
     }
 
     @Override
     public PrimitiveValue not() {
-        return null;
+        return new PrimitiveBool(!boxed);
     }
 
     @Override

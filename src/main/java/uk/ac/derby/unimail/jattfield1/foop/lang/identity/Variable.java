@@ -2,7 +2,7 @@ package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
-public class Variable extends NamedIdentity{
+public class Variable extends NamedIdentity {
     /**
      * PrimitiveValue, Function etc
      */

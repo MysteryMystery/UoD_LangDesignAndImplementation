@@ -6,7 +6,7 @@ public class Foop {
         try {
             System.out.println("Foop (Functional Object Orientated Programming)");
             while(true)
-                foop.program().jjtAccept(new FoopParser(), null);
+                foop.program().jjtAccept(FoopParser.getInstance(), null);
         } catch (Throwable e){
             System.out.println(e.getMessage());
         }
