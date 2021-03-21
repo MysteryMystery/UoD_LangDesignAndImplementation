@@ -1,5 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
+import java.util.ArrayList;
+
 public class PrimitiveFloat extends AbstractPrimitiveValue{
     private final float boxed;
 
@@ -110,5 +112,12 @@ public class PrimitiveFloat extends AbstractPrimitiveValue{
     @Override
     public <T> T to(Class<T> type) {
         return null;
+    }
+
+    @Override
+    public ArrayList<PrimitiveValue> toCollection() {
+        ArrayList<PrimitiveValue> x = new ArrayList<>();
+        x.add(this);
+        return x;
     }
 }

@@ -4,9 +4,13 @@ import uk.ac.derby.unimail.jattfield1.foop.compiler.FoopCompiler;
 import uk.ac.derby.unimail.jattfield1.foop.lang.exception.VariableDoesNotExistException;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Variable;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveBool;
+import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveCollection;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveInt;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 import uk.ac.derby.unimail.jattfield1.foop.parser.ast.*;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class FoopParser implements FoopVisitor {
     private final FoopCompiler compiler;
@@ -38,10 +42,27 @@ public class FoopParser implements FoopVisitor {
     }
 
     @Override
-    public Object visit(ASTExpression node, Object data) {
+    public Object visit(ASTForLoop node, Object data) {
+        System.out.println("unimplemented");
+        return null;
+    }
+
+    @Override
+    public Object visit(ASTCodeBlock node, Object data) {
+        return node.childrenAccept(this, data);
+    }
+
+    @Override
+    public Object visit(ASTStatement node, Object data) {
         Object value = node.jjtGetChild(0).jjtAccept(this, data);
-        System.out.println(">> " + value.toString());
         return data;
+    }
+
+    @Override
+    public Object visit(ASTPrint node, Object data) {
+        PrimitiveValue c = getChild(node, 0);
+        System.out.println(c.toString());
+        return c;
     }
 
     @Override
@@ -90,11 +111,21 @@ public class FoopParser implements FoopVisitor {
     }
 
     @Override
+    public Object visit(ASTCollection node, Object data) {
+        ArrayList<PrimitiveValue> collection = new ArrayList<>();
+
+        for(int i = 0; i < node.jjtGetNumChildren(); i++)
+            collection.add(getChild(node, i));
+
+        return new PrimitiveCollection(collection);
+    }
+
+    @Override
     public Object visit(ASTAssignment node, Object data) {
         Variable variable = getChild(node, 0);
         variable.setData(getChild(node, 1));
 
-        compiler.registerIdentity(variable);
+        compiler.getGlobalScope().registerIdentity(variable);
 
         return variable;
     }
@@ -102,7 +133,7 @@ public class FoopParser implements FoopVisitor {
     @Override
     public Object visit(ASTReassignment node, Object data) {
         Variable variable = getChild(node, 0);
-        if (compiler.hasIdentity(variable.getName())){
+        if (compiler.getGlobalScope().hasIdentity(variable.getName())){
             variable.setData(getChild(node, 1));
             return variable;
         }
@@ -151,8 +182,8 @@ public class FoopParser implements FoopVisitor {
 
     @Override
     public Object visit(ASTIdentifier node, Object data) {
-        if (compiler.hasIdentity(node.tokenValue))
-            return compiler.getIdentity(node.tokenValue);
+        if (compiler.getGlobalScope().hasIdentity(node.tokenValue))
+            return compiler.getGlobalScope().getIdentity(node.tokenValue);
         return new Variable(node.tokenValue);
     }
 

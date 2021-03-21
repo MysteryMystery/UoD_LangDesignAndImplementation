@@ -1,5 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
+import java.util.ArrayList;
+
 public interface PrimitiveValue {
     // Arithmatic
     PrimitiveValue add (PrimitiveValue other);
@@ -27,5 +29,6 @@ public interface PrimitiveValue {
     double toDouble();
     float toFloat();
     boolean toBool();
+    ArrayList<PrimitiveValue> toCollection();
     <T> T to(Class<T> type);
 }

@@ -1,92 +1,106 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
+import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
+import uk.ac.derby.unimail.jattfield1.foop.lang.identity.FunctionBody;
+
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-public class PrimitiveBool extends AbstractPrimitiveValue{
-    private final boolean boxed;
+public class PrimitiveCollection extends AbstractPrimitiveValue implements PrimitiveValue{
+    private final ArrayList<PrimitiveValue> boxed;
 
-    public PrimitiveBool(boolean toBox){
+    public PrimitiveCollection(ArrayList<PrimitiveValue> toBox){
         boxed = toBox;
     }
 
     @Override
     public PrimitiveValue add(PrimitiveValue other) {
-        throw new UnsupportedOperationException("Cannot add boolean.");
+        if (!boxed.add(other))
+            return null;
+        return new PrimitiveCollection(boxed);
     }
 
     @Override
     public PrimitiveValue multiply(PrimitiveValue other) {
-        throw new UnsupportedOperationException("Cannot multiply boolean.");
+        return null;
     }
 
     @Override
     public PrimitiveValue divide(PrimitiveValue other) {
-        throw new UnsupportedOperationException("Cannot divide boolean.");
+        return null;
     }
 
     @Override
     public PrimitiveValue subtract(PrimitiveValue other) {
-        throw new UnsupportedOperationException("Cannot subtract boolean.");
+        boxed.remove(other);
+        return new PrimitiveCollection(boxed);
     }
 
     @Override
     public PrimitiveValue unaryPlus() {
-        throw new UnsupportedOperationException("Unary Plus not implemented yet.");
+        return null;
     }
 
     @Override
     public PrimitiveValue unarySubtract() {
-        throw new UnsupportedOperationException("Unary Subtract not implemented yet.");
+        return null;
     }
 
     @Override
     public PrimitiveValue equalTo(PrimitiveValue other) {
-        return new PrimitiveBool(boxed == other.toBool());
+        if (other instanceof PrimitiveCollection)
+            return new PrimitiveBool(other.toCollection().equals(boxed));
+        return new PrimitiveBool(false);
     }
 
     @Override
     public PrimitiveValue notEqualTo(PrimitiveValue other) {
-        return new PrimitiveBool(boxed != other.toBool());
+        return new PrimitiveBool(!equalTo(other).toBool());
     }
 
     @Override
     public PrimitiveValue greaterThan(PrimitiveValue other) {
-        return new PrimitiveBool(boxed && !other.toBool());
+        return new PrimitiveBool(other.toCollection().size() > boxed.size());
     }
 
     @Override
     public PrimitiveValue lessThan(PrimitiveValue other) {
-        return new PrimitiveBool(!boxed && other.toBool());
+        return new PrimitiveBool(other.toCollection().size() < boxed.size());
     }
 
     @Override
     public PrimitiveValue greaterThanEqualTo(PrimitiveValue other) {
-        return new PrimitiveBool(true);
+        return new PrimitiveBool(other.toCollection().size() >= boxed.size());
     }
 
     @Override
     public PrimitiveValue lessThanEqualTo(PrimitiveValue other) {
-        return new PrimitiveBool(true);
+        return new PrimitiveBool(other.toCollection().size() <= boxed.size());
     }
 
     @Override
     public PrimitiveValue or(PrimitiveValue other) {
-        return new PrimitiveBool(boxed || other.toBool());
+        return null;
     }
 
     @Override
     public PrimitiveValue and(PrimitiveValue other) {
-        return new PrimitiveBool(boxed && other.toBool());
+        return null;
     }
 
     @Override
     public PrimitiveValue not() {
-        return new PrimitiveBool(!boxed);
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + boxed.stream().map(PrimitiveValue::toString).collect(Collectors.joining(", ")) + "]";
     }
 
     @Override
     public int toInt() {
-        return boxed ? 1 : 0;
+        return boxed.size();
     }
 
     @Override
@@ -101,23 +115,21 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
 
     @Override
     public boolean toBool() {
-        return boxed;
+        return false;
     }
 
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
-        ArrayList<PrimitiveValue> x = new ArrayList<>();
-        x.add(this);
-        return x;
-    }
-
-    @Override
-    public String toString() {
-        return boxed ? "true" : "false";
+        return boxed;
     }
 
     @Override
     public <T> T to(Class<T> type) {
         return null;
+    }
+
+    public PrimitiveCollection each(FunctionBody functionBody){
+
+        return this;
     }
 }

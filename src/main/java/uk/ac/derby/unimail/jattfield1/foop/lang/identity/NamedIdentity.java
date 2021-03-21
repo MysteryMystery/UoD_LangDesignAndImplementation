@@ -2,6 +2,8 @@ package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
+import java.util.ArrayList;
+
 public abstract class NamedIdentity implements PrimitiveValue {
     private final String name;
 
@@ -118,5 +120,10 @@ public abstract class NamedIdentity implements PrimitiveValue {
     @Override
     public <T> T to(Class<T> type) {
         return getResult().to(type);
+    }
+
+    @Override
+    public ArrayList<PrimitiveValue> toCollection() {
+        return getResult().toCollection();
     }
 }

@@ -55,6 +55,10 @@ TOKEN [IGNORE_CASE]: {
 
    |< TRUE: "true">
    |< FALSE: "false">
+
+   | <PRINT: "print">
+
+   | <FOR: "for">
 }
 
 /* literals */
@@ -112,29 +116,56 @@ TOKEN :
 ASTProgram program() #Program:
 {}
 {
-    expression() ";" {return jjtThis;}
+    statement() ";" {return jjtThis;}
 }
 
-void expression() #Expression:
+void forLoop() #ForLoop :
 {}
 {
-    assignmentExpression()
+    <FOR> <BRACKET_L> assignmentExpression() <SEMICOLON> expression() <SEMICOLON> assignmentExpression() <BRACKET_R> codeBlock()
+}
+
+void codeBlock() #CodeBlock :
+{}
+{
+    <BRACE_L> ( statement() )* <BRACE_R>
+}
+
+
+void statement() #Statement :
+{}
+{
+    expression()
+    | assignmentExpression()
+    | output()
+    | forLoop()
+}
+
+void output() #Print:
+{}
+{
+    <PRINT> expression()
 }
 
 void assignmentExpression():
 {}
 {
-    LOOKAHEAD(2)
-    <CLASS_IDENTIFIER> identifier() <ASSIGN> arithmaticExpression() #Assignment(2)
-    |
-    reassignmentExpression()
+     LOOKAHEAD(2)
+            <CLASS_IDENTIFIER> identifier() <ASSIGN> orExpression() #Assignment(2)
+            |
+            reassignmentExpression()
+}
+
+void expression():
+{}
+{
+    orExpression()
 }
 
 void reassignmentExpression():
 {}
 {
     identifier() <ASSIGN> arithmaticExpression() #Reassignment(2)
-    | orExpression()
 }
 
 void orExpression() :
@@ -196,7 +227,14 @@ void primaryExpression():
 {
     identifier()
     | literal()
+    | collection()
     | "(" expression() ")"
+}
+
+void collection() #Collection :
+{}
+{
+    <SQU_BRACKET_L> literal() ( "," literal() )* [","] <SQU_BRACKET_R>
 }
 
 void literal():
