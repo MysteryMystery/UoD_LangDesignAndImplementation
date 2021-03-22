@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
+import uk.ac.derby.unimail.jattfield1.foop.compiler.Scope;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
 import java.util.ArrayList;
@@ -8,46 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Function extends NamedIdentity{
-    private FunctionBody functionBody;
     private int numberOfParams;
+    private Scope scope;
 
-    public Function(String name, int numberOfParams, FunctionBody functionBody) {
+    public Function(String name, int numberOfParams, Scope scope) {
         super(name);
-        this.functionBody = functionBody;
         this.numberOfParams = numberOfParams;
-    }
-
-    public static class FunctionBuilder {
-        private String name;
-        private int numberOfParams;
-        private FunctionBody behaviour;
-
-        FunctionBuilder(){
-
-        }
-
-        public static FunctionBuilder of(){
-            return new FunctionBuilder();
-        }
-
-        public FunctionBuilder setName(String name){
-            this.name = name;
-            return this;
-        }
-
-        public FunctionBuilder setBehaviour(FunctionBody behaviour) {
-            this.behaviour = behaviour;
-            return this;
-        }
-
-        public FunctionBuilder setNumberOfParams(int numberOfParams) {
-            this.numberOfParams = numberOfParams;
-            return this;
-        }
-
-        public Function build(){
-            return new Function(name, numberOfParams, behaviour);
-        }
+        this.scope = scope;
     }
 
     @Override
@@ -57,11 +25,8 @@ public class Function extends NamedIdentity{
 
     @Override
     public PrimitiveValue getResult() {
-        return functionBody.execute(new HashSet<>());
-    }
-
-    public PrimitiveValue getResult(Set<PrimitiveValue> arguments){
-        return functionBody.execute(arguments);
+        scope.executeInstructions();
+        return scope.valueStack.pop();
     }
 
     @Override

@@ -129,7 +129,7 @@ public class PrimitiveCollection extends AbstractPrimitiveValue implements Primi
     }
 
     public PrimitiveCollection each(FunctionBody functionBody){
-
+        boxed.forEach(functionBody::execute);
         return this;
     }
 }

@@ -116,7 +116,7 @@ TOKEN :
 ASTProgram program() #Program:
 {}
 {
-    statement() ";" {return jjtThis;}
+    statement() ";" ( statement() ";" )* <EOF> {return jjtThis;}
 }
 
 void forLoop() #ForLoop :
