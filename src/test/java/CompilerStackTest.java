@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
+import uk.ac.derby.unimail.jattfield1.foop.compiler.FoopCompiler;
 import uk.ac.derby.unimail.jattfield1.foop.compiler.Scope;
 import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionAdd;
+import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionPrint;
 import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionVariableAssign;
 import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionVariableGet;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
@@ -57,5 +59,24 @@ public class CompilerStackTest {
         globalScope.executeInstructions();
         //assertEquals(5, globalScope.valueStack.pop().toInt());
         System.out.println(globalScope.valueStack.peek());
+    }
+
+    @Test
+    public void compile(){
+        FoopCompiler compiler = new FoopCompiler();
+        compiler.globalScope.compileInstruction(new InstructionPrint());
+        compiler.globalScope.compileInstruction(new InstructionVariableGet("x"));
+        compiler.globalScope.compileInstruction(new InstructionVariableAssign("x"));
+
+        compiler.globalScope.compileInstruction(new InstructionAdd());
+        compiler.globalScope.valueStack.push(new PrimitiveInt(10));
+
+        compiler.globalScope.compileInstruction(new InstructionVariableGet("x"));
+        compiler.globalScope.compileInstruction(new InstructionVariableAssign("x"));
+        compiler.globalScope.valueStack.push(new PrimitiveInt(5));
+
+        compiler.compileTo("compileTest");
+
+        compiler.execute(compiler.getOutPath() + "compileTest" + compiler.getBinExt());
     }
 }

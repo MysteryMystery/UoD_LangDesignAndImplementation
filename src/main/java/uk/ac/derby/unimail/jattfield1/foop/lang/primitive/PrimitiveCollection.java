@@ -6,7 +6,7 @@ import uk.ac.derby.unimail.jattfield1.foop.lang.identity.FunctionBody;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class PrimitiveCollection extends AbstractPrimitiveValue implements PrimitiveValue{
+public class PrimitiveCollection extends AbstractPrimitiveValue {
     private final ArrayList<PrimitiveValue> boxed;
 
     public PrimitiveCollection(ArrayList<PrimitiveValue> toBox){

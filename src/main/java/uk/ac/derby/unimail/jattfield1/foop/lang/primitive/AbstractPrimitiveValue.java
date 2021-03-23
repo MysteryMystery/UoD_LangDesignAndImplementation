@@ -2,10 +2,13 @@ package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public abstract class AbstractPrimitiveValue implements PrimitiveValue {
+public abstract class AbstractPrimitiveValue implements PrimitiveValue, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final HashMap<String, Function> methods = new HashMap<>();
 
     protected void putMethod(String methodName, Function function){

@@ -3,15 +3,20 @@ package uk.ac.derby.unimail.jattfield1.foop.compiler;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Stack;
 
-public class Scope {
+public class Scope implements Serializable {
     private final HashMap<String, NamedIdentity> identities = new HashMap<>();
     public final Stack<Instruction> instructionStack = new Stack<>();
     public final Stack<PrimitiveValue> valueStack = new Stack<>();
-    public Scope parent = null;
+    private Scope parent = null;
+    private ArrayList<Scope> children = new ArrayList<>();
+
+    private static final long serialVersionUID = 1L;
 
     public Scope(){
 
@@ -70,4 +75,12 @@ public class Scope {
         return parent;
     }
 
+    public ArrayList<Scope> getChildren() {
+        return children;
+    }
+
+    public Scope addChild(Scope scope){
+        this.children.add(scope);
+        return this;
+    }
 }

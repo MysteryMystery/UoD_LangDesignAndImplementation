@@ -2,10 +2,12 @@ package uk.ac.derby.unimail.jattfield1.foop.compiler;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public abstract class Instruction {
+public abstract class Instruction implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public final String getName() {
         return getClass().getSimpleName();
