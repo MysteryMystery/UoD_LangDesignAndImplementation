@@ -1,5 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang;
 
+import uk.ac.derby.unimail.jattfield1.foop.parser.ParseException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +13,7 @@ public class Foop {
     public static void main(String[] args) {
         try {
             FileInputStream input = new FileInputStream(args[0]);
-            //System.out.println((new BufferedReader(new InputStreamReader(fileInputStream))).lines().collect(Collectors.joining("\n")));
+            //System.out.println((new BufferedReader(new InputStreamReader(input))).lines().collect(Collectors.joining("\n")));
 
             uk.ac.derby.unimail.jattfield1.foop.parser.Foop foop = new uk.ac.derby.unimail.jattfield1.foop.parser.Foop(input);
 

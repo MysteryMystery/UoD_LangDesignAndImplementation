@@ -1,0 +1,3 @@
+meth x does {}
+
+meth x expects Int x, Int y does {}

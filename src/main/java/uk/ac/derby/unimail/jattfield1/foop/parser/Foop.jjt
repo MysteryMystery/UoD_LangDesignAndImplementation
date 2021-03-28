@@ -59,6 +59,9 @@ TOKEN [IGNORE_CASE]: {
    | <PRINT: "print">
 
    | <FOR: "for">
+   | <METHOD: "meth">
+   | <DOES: "does">
+   | <EXPECTS: "expects">
 }
 
 /* literals */
@@ -116,29 +119,34 @@ TOKEN :
 ASTProgram program() #Program:
 {}
 {
-    statement() ";" ( statement() ";" )* <EOF> {return jjtThis;}
+    statement() /*( statement())* <EOF>*/ {return jjtThis;}
 }
 
-void forLoop() #ForLoop :
+void statement() #Statement :
 {}
 {
-    <FOR> <BRACKET_L> assignmentExpression() <SEMICOLON> expression() <SEMICOLON> assignmentExpression() <BRACKET_R> codeBlock()
+    expression() ";"
+    | assignmentExpression() ";"
+    | output() ";"
+    | functionDefinition()
+}
+
+void parameterList() #ParameterList :
+{}
+{
+    [<EXPECTS> <CLASS_IDENTIFIER> identifier() ("," <CLASS_IDENTIFIER> identifier()) *]
+}
+
+void functionDefinition() #FunctionDefinition :
+{}
+{
+    <METHOD> identifier() parameterList() <DOES> codeBlock()
 }
 
 void codeBlock() #CodeBlock :
 {}
 {
-    <BRACE_L> ( statement() )* <BRACE_R>
-}
-
-
-void statement() #Statement :
-{}
-{
-    expression()
-    | assignmentExpression()
-    | output()
-    | forLoop()
+    <BRACE_L> ( statement() ";" )* <BRACE_R>
 }
 
 void output() #Print:

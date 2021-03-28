@@ -2,6 +2,7 @@ package uk.ac.derby.unimail.jattfield1.foop.lang;
 
 import uk.ac.derby.unimail.jattfield1.foop.compiler.FoopCompiler;
 import uk.ac.derby.unimail.jattfield1.foop.lang.exception.VariableDoesNotExistException;
+import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Variable;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveBool;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveCollection;
@@ -42,8 +43,17 @@ public class FoopParser implements FoopVisitor {
     }
 
     @Override
-    public Object visit(ASTForLoop node, Object data) {
-        System.out.println("unimplemented");
+    public Object visit(ASTParameterList node, Object data) {
+        ArrayList<Variable> params = new ArrayList<>();
+        for (int i=0; i < node.jjtGetNumChildren(); i++){
+            params.add(getChild(node, i));
+        }
+        return params.toArray();
+    }
+
+    @Override
+    public Object visit(ASTFunctionDefinition node, Object data) {
+        System.out.println(node.jjtGetNumChildren());
         return null;
     }
 

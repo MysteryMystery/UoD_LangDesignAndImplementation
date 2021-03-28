@@ -8,13 +8,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Function extends NamedIdentity{
-    private int numberOfParams;
-    private Scope scope;
+public class Function {
+    private ArrayList<NamedIdentity> params;
+    public final Scope scope;
+    private String name;
 
-    public Function(String name, int numberOfParams, Scope scope) {
-        super(name);
-        this.numberOfParams = numberOfParams;
+    public Function(String name, ArrayList<NamedIdentity> params, Scope scope) {
+        this.name = name;
+        this.params = params;
         this.scope = scope;
     }
 
@@ -23,39 +24,9 @@ public class Function extends NamedIdentity{
         return "Function: " + getName();
     }
 
-    @Override
-    public PrimitiveValue getResult() {
-        scope.executeInstructions();
-        return scope.valueStack.pop();
+
+    public String getName(){
+        return name;
     }
 
-    @Override
-    public int toInt() {
-        return 0;
-    }
-
-    @Override
-    public double toDouble() {
-        return 0;
-    }
-
-    @Override
-    public float toFloat() {
-        return 0;
-    }
-
-    @Override
-    public boolean toBool() {
-        return false;
-    }
-
-    @Override
-    public <T> T to(Class<T> type) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<PrimitiveValue> toCollection() {
-        return null;
-    }
 }
