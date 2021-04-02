@@ -9,6 +9,25 @@ public class FoopCompiler {
     private final String binExt = ".foop.ser";
 
     public final Scope globalScope = new Scope();
+    private Scope previousScope = null;
+    private Scope currentScope = globalScope;
+
+    public Scope getCurrentScope() {
+        return currentScope;
+    }
+
+    public Scope getPreviousScope() {
+        return previousScope;
+    }
+
+    public void compileInstruction(Instruction instruction){
+        this.currentScope.compileInstruction(instruction);
+    }
+
+    public void setCurrentScope(Scope currentScope) {
+        this.previousScope = this.currentScope;
+        this.currentScope = currentScope;
+    }
 
     public Scope getGlobalScope() {
         return globalScope;

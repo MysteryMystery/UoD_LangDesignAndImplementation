@@ -62,6 +62,7 @@ TOKEN [IGNORE_CASE]: {
    | <METHOD: "meth">
    | <DOES: "does">
    | <EXPECTS: "expects">
+   | <CLASS: "class">
 }
 
 /* literals */
@@ -128,7 +129,13 @@ void statement() #Statement :
     expression() ";"
     | assignmentExpression() ";"
     | output() ";"
-    | functionDefinition()
+    | classDefinition()
+}
+
+void classDefinition() #ClassDefinition :
+{}
+{
+    <CLASS> classIdentifier() "{" ( functionDefinition() )* "}"
 }
 
 void parameterList() #ParameterList :
@@ -255,6 +262,12 @@ void identifier() #Identifier :
 {Token t;}
 {
     t = <IDENTIFIER> { jjtThis.tokenValue = t.image;}
+}
+
+void classIdentifier() #ClassIdentifier :
+{Token t;}
+{
+    t = <CLASS_IDENTIFIER> { jjtThis.tokenValue = t.image;}
 }
 
 void integer() #Int :
