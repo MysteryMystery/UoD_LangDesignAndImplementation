@@ -30,5 +30,4 @@ public interface PrimitiveValue {
     float toFloat();
     boolean toBool();
     ArrayList<PrimitiveValue> toCollection();
-    <T> T to(Class<T> type);
 }

@@ -124,10 +124,6 @@ public class PrimitiveInt extends AbstractPrimitiveValue {
         return String.valueOf(boxed);
     }
 
-    @Override
-    public <T> T to(Class<T> type) {
-        return null;
-    }
 
     @Override
     public ArrayList<PrimitiveValue> toCollection() {

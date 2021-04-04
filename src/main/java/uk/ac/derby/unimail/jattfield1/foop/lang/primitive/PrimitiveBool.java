@@ -116,8 +116,4 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
         return boxed ? "true" : "false";
     }
 
-    @Override
-    public <T> T to(Class<T> type) {
-        return null;
-    }
 }

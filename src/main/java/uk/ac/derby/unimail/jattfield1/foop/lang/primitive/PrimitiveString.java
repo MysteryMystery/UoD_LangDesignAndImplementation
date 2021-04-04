@@ -2,41 +2,41 @@ package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
 import java.util.ArrayList;
 
-public class PrimitiveFloat extends AbstractPrimitiveValue{
-    private final float boxed;
+public class PrimitiveString extends AbstractPrimitiveValue{
+    private String boxed;
 
-    public PrimitiveFloat(float toBox){
+    public PrimitiveString(String toBox){
         boxed = toBox;
     }
 
     @Override
     public PrimitiveValue add(PrimitiveValue other) {
-        return new PrimitiveFloat(other.toFloat() + boxed);
+        return new PrimitiveString(boxed + other.toString());
     }
 
     @Override
     public PrimitiveValue multiply(PrimitiveValue other) {
-        return new PrimitiveFloat(other.toFloat() * boxed);
+        return null;
     }
 
     @Override
     public PrimitiveValue divide(PrimitiveValue other) {
-        return new PrimitiveFloat(other.toFloat() / boxed);
+        return null;
     }
 
     @Override
     public PrimitiveValue subtract(PrimitiveValue other) {
-        return new PrimitiveFloat(other.toFloat() - boxed);
+        return null;
     }
 
     @Override
     public PrimitiveValue unaryPlus() {
-        throw new UnsupportedOperationException("Unary Plus not implemented yet.");
+        return null;
     }
 
     @Override
     public PrimitiveValue unarySubtract() {
-        throw new UnsupportedOperationException("Unary Subtract not implemented yet.");
+        return null;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PrimitiveFloat extends AbstractPrimitiveValue{
 
     @Override
     public PrimitiveValue notEqualTo(PrimitiveValue other) {
-        return new PrimitiveBool(boxed != other.toFloat());
+        return null;
     }
 
     @Override
@@ -81,39 +81,36 @@ public class PrimitiveFloat extends AbstractPrimitiveValue{
 
     @Override
     public PrimitiveValue not() {
-        return new PrimitiveFloat(boxed * -1);
+        return null;
     }
 
     @Override
     public int toInt() {
-        return (int) boxed;
+        return 0;
     }
 
     @Override
     public double toDouble() {
-        return boxed;
+        return 0;
     }
 
     @Override
     public float toFloat() {
-        return boxed;
+        return 0;
     }
 
     @Override
     public boolean toBool() {
-        return boxed != 0;
+        return false;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(boxed);
+        return boxed;
     }
-
 
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
-        ArrayList<PrimitiveValue> x = new ArrayList<>();
-        x.add(this);
-        return x;
+        return null;
     }
 }

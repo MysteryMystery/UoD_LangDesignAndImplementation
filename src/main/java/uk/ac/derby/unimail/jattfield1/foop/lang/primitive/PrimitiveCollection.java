@@ -123,10 +123,6 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
         return boxed;
     }
 
-    @Override
-    public <T> T to(Class<T> type) {
-        return null;
-    }
 
     public PrimitiveCollection each(FunctionBody functionBody){
         boxed.forEach(functionBody::execute);

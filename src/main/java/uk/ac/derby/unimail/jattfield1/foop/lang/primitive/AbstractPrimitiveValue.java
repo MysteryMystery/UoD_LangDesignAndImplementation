@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
+
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
 
 import java.io.Serializable;

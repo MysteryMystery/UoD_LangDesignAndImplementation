@@ -15,6 +15,8 @@ public abstract class NamedIdentity implements PrimitiveValue {
         return name;
     }
 
+    public abstract void setData(PrimitiveValue value);
+
     public abstract PrimitiveValue getResult();
 
     @Override
@@ -115,11 +117,6 @@ public abstract class NamedIdentity implements PrimitiveValue {
     @Override
     public boolean toBool() {
         return getResult().toBool();
-    }
-
-    @Override
-    public <T> T to(Class<T> type) {
-        return getResult().to(type);
     }
 
     @Override
