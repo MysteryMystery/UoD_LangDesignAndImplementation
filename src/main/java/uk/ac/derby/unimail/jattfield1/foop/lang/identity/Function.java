@@ -51,6 +51,7 @@ public class Function {
     }
 
     public Object execute(FoopParser parser){
+        // set scope of parser to this scope, then reset at end then return value - by Parse.setScope etc.
         return functionBody.childrenAccept(parser, null);
     }
 }

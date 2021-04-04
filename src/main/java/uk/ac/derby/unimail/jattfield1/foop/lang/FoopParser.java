@@ -96,7 +96,9 @@ public class FoopParser implements FoopVisitor {
 
     @Override
     public Object visit(ASTPrint node, Object data) {
-        PrimitiveValue c = getChild(node, 0);
+        Object c = getChild(node, 0);
+        if (c instanceof String)
+            c = currentScope.getVariable((String) c);
         System.out.println(c.toString());
         return c;
     }
