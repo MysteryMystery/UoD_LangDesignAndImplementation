@@ -21,7 +21,7 @@ public abstract class NamedIdentity implements PrimitiveValue {
 
     @Override
     public String toString() {
-        return getName();
+        return getResult().toString();
     }
 
     @Override
@@ -122,5 +122,14 @@ public abstract class NamedIdentity implements PrimitiveValue {
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
         return getResult().toCollection();
+    }
+
+    public static PrimitiveValue valueOf(PrimitiveValue primitiveValue){
+        // cannot overload this due to inheritance
+        if (primitiveValue instanceof Constant)
+            return ((Constant) primitiveValue).getResult();
+        if (primitiveValue instanceof Variable)
+            return ((Variable) primitiveValue).getResult();
+        return primitiveValue;
     }
 }

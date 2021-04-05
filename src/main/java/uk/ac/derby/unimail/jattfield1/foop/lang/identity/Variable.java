@@ -28,11 +28,6 @@ public class Variable extends NamedIdentity {
     }
 
     @Override
-    public String toString() {
-        return super.toString() + " = " + this.getResult();
-    }
-
-    @Override
     public ArrayList<PrimitiveValue> toCollection() {
         ArrayList<PrimitiveValue> x = new ArrayList<>();
         x.add(this);

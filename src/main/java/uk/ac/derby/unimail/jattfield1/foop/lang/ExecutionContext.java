@@ -23,6 +23,10 @@ public class ExecutionContext {
         this.parent = parent;
     }
 
+    public ExecutionContext getParent() {
+        return parent;
+    }
+
     public void putNamedIdentity(NamedIdentity namedIdentity){
         if (variables.containsKey(namedIdentity.getName())){
             // set rather than put new so that constant validation can be done over in that class and not here
@@ -42,13 +46,17 @@ public class ExecutionContext {
         return this.variables.containsKey(name) || (this.parent != null && this.parent.hasNamedIdentity(name));
     }
 
-    public Variable getVariable(String name){
+    public NamedIdentity getNamedIdentity(String name){
         if (!this.variables.containsKey(name)){
             if (parent == null)
                 throw new RuntimeException("Variable does not exist");
-            return parent.getVariable(name);
+            return parent.getNamedIdentity(name);
         }
-        return (Variable) variables.get(name);
+        return variables.get(name);
+    }
+
+    public HashMap<String, NamedIdentity> getVariables() {
+        return variables;
     }
 
     public Function getFunction(String name){

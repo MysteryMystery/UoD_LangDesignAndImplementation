@@ -124,17 +124,16 @@ TOKEN :
 ASTProgram program() #Program:
 {}
 {
-    statement() /*( statement())* <EOF>*/ {return jjtThis;}
+    statement() ( statement() )* <EOF> {return jjtThis;}
 }
 
 void statement() #Statement :
 {}
 {
     LOOKAHEAD(3)
-
     expression() ";"
+    | LOOKAHEAD(2) assignmentExpression() ";"
     | functionCall() ";"
-    | assignmentExpression() ";"
     | output() ";"
     | functionDefinition()
 }
@@ -181,13 +180,18 @@ void output() #Print:
     <PRINT> expression()
 }
 
+void deference() #Deference:
+{}
+{
+    identifier()
+}
+
 void assignmentExpression():
 {}
 {
      LOOKAHEAD(2)
             <CLASS_IDENTIFIER> identifier() <ASSIGN> orExpression() #Assignment(2)
-            |
-            reassignmentExpression()
+            | reassignmentExpression()
 }
 
 void expression():
@@ -259,7 +263,7 @@ void unaryExpression():
 void primaryExpression():
 {}
 {
-    identifier()
+    deference()
     | literal()
     | collection()
     | "(" expression() ")"
