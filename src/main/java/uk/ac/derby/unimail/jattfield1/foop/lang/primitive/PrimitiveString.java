@@ -6,6 +6,7 @@ public class PrimitiveString extends AbstractPrimitiveValue{
     private String boxed;
 
     public PrimitiveString(String toBox){
+        super("Str");
         boxed = toBox;
     }
 

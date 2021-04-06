@@ -16,9 +16,15 @@ public class Constant extends NamedIdentity{
     }
 
     public void setData(PrimitiveValue data) {
+        validateSet(data);
+        this.data = data;
+    }
+
+    @Override
+    protected void validateSet(PrimitiveValue data) {
         if (this.data != null)
             throw new RuntimeException("Cannot change value of constant: " + getName());
-        this.data = data;
+        super.validateSet(data);
     }
 
     @Override

@@ -2,10 +2,12 @@ package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 
 public abstract class NamedIdentity implements PrimitiveValue {
     private final String name;
+    private String type;
 
     public NamedIdentity(String name){
         this.name = name;
@@ -16,6 +18,14 @@ public abstract class NamedIdentity implements PrimitiveValue {
     }
 
     public abstract void setData(PrimitiveValue value);
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public abstract PrimitiveValue getResult();
 
@@ -131,5 +141,10 @@ public abstract class NamedIdentity implements PrimitiveValue {
         if (primitiveValue instanceof Variable)
             return ((Variable) primitiveValue).getResult();
         return primitiveValue;
+    }
+
+    protected void validateSet(PrimitiveValue data){
+        if (!this.getType().equals(data.getType()))
+            throw new RuntimeException("Incorrect datatype for " + getName() + ", expecting " + getType() + " but got " + data.getType());
     }
 }

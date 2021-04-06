@@ -6,6 +6,7 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
     private final boolean boxed;
 
     public PrimitiveBool(boolean toBox){
+        super("Bool");
         boxed = toBox;
     }
 

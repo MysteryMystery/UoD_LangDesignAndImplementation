@@ -20,6 +20,7 @@ public class Variable extends NamedIdentity {
     }
 
     public void setData(PrimitiveValue data) {
+        validateSet(data);
         this.data = data;
     }
 

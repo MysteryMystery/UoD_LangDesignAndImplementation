@@ -138,10 +138,20 @@ void statement() #Statement :
     | functionDefinition()
 }
 
+void assignableStatement() :
+{}
+{
+    functionCall()
+    | expression()
+}
+
 void classDefinition() #ClassDefinition :
 {}
 {
-    <CLASS> classIdentifier() "{" ( functionDefinition() )* "}"
+    <CLASS> classIdentifier() "{"
+        ( attributeDefinition() )*
+        ( functionDefinition() )*
+    "}"
 }
 
 void functionCall() #FunctionCall :
@@ -159,7 +169,13 @@ void functionCallArgs() #FunctionCallArgs :
 void parameterList() #ParameterList :
 {}
 {
-    [<EXPECTS> <CLASS_IDENTIFIER> identifier() ("," <CLASS_IDENTIFIER> identifier()) *]
+    [<EXPECTS> classIdentifier() identifier() ("," classIdentifier() identifier()) *]
+}
+
+void attributeDefinition() #AttributeDefinition :
+{}
+{
+    <CLASS_IDENTIFIER> identifier() [ <ASSIGN> orExpression() ] ";"
 }
 
 void functionDefinition() #FunctionDefinition :
@@ -177,7 +193,7 @@ void codeBlock() #CodeBlock :
 void output() #Print:
 {}
 {
-    <PRINT> expression()
+    <PRINT> assignableStatement()
 }
 
 void deference() #Deference:
@@ -190,7 +206,7 @@ void assignmentExpression():
 {}
 {
      LOOKAHEAD(2)
-            <CLASS_IDENTIFIER> identifier() <ASSIGN> orExpression() #Assignment(2)
+            classIdentifier() identifier() <ASSIGN> orExpression() #Assignment(3)
             | reassignmentExpression()
 }
 

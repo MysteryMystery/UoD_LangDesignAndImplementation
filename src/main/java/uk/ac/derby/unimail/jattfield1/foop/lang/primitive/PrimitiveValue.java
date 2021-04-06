@@ -23,6 +23,8 @@ public interface PrimitiveValue {
     PrimitiveValue and (PrimitiveValue other);
     PrimitiveValue not ();
 
+    String getType();
+
     // Casts
     String toString();
     int toInt();

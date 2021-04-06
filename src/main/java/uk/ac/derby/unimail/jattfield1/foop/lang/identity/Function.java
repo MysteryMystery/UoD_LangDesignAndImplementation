@@ -1,15 +1,11 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
-import uk.ac.derby.unimail.jattfield1.foop.compiler.Scope;
-import uk.ac.derby.unimail.jattfield1.foop.lang.BaseASTNode;
 import uk.ac.derby.unimail.jattfield1.foop.lang.ExecutionContext;
 import uk.ac.derby.unimail.jattfield1.foop.lang.FoopParser;
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
-import uk.ac.derby.unimail.jattfield1.foop.parser.ast.Node;
 import uk.ac.derby.unimail.jattfield1.foop.parser.ast.SimpleNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Function {
     private LinkedHashMap<String, Constant> params; // to maintain insertion order
@@ -71,6 +67,7 @@ public class Function {
         injectArgsToScope(parser.getCurrentScope());
         //System.out.println("vars: " + parser.getCurrentScope().getVariables().entrySet().stream().map(Map.Entry::getValue).map(NamedIdentity::toString).collect(Collectors.joining(", ")));
         Object ret = functionBody.childrenAccept(parser, null);
+        System.out.println(ret);
         parser.parentScope();
         clearArgs();
         return ret;

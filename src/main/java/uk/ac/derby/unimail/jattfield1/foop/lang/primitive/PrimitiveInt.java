@@ -7,6 +7,7 @@ public class PrimitiveInt extends AbstractPrimitiveValue {
     private final int boxed;
 
     public PrimitiveInt(int toBox){
+        super("Int");
         this.boxed = toBox;
     }
 

@@ -1,8 +1,5 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
-import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
-import uk.ac.derby.unimail.jattfield1.foop.lang.identity.FunctionBody;
-
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -10,6 +7,7 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     private final ArrayList<PrimitiveValue> boxed;
 
     public PrimitiveCollection(ArrayList<PrimitiveValue> toBox){
+        super("Collection");
         boxed = toBox;
     }
 
@@ -121,11 +119,5 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
         return boxed;
-    }
-
-
-    public PrimitiveCollection each(FunctionBody functionBody){
-        boxed.forEach(functionBody::execute);
-        return this;
     }
 }

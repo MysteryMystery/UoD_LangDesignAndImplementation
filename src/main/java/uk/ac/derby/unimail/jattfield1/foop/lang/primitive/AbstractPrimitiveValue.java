@@ -1,16 +1,20 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang.primitive;
 
 
+import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Class;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public abstract class AbstractPrimitiveValue implements PrimitiveValue, Serializable {
-    private static final long serialVersionUID = 1L;
+public abstract class AbstractPrimitiveValue extends Class implements PrimitiveValue {
 
     private final HashMap<String, Function> methods = new HashMap<>();
+
+    public AbstractPrimitiveValue(String name) {
+        super(name);
+    }
 
     protected void putMethod(String methodName, Function function){
         this.methods.put(methodName, function);

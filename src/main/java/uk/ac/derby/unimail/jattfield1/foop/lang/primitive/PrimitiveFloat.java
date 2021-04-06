@@ -6,6 +6,7 @@ public class PrimitiveFloat extends AbstractPrimitiveValue{
     private final float boxed;
 
     public PrimitiveFloat(float toBox){
+        super("Float");
         boxed = toBox;
     }
 

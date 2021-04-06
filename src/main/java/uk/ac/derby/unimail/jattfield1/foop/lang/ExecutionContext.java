@@ -2,7 +2,6 @@ package uk.ac.derby.unimail.jattfield1.foop.lang;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
-import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Variable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,9 +61,11 @@ public class ExecutionContext {
     public Function getFunction(String name){
         if (!this.functions.containsKey(name)){
             if (parent == null)
-                throw new RuntimeException("Variable does not exist");
+                throw new RuntimeException("Function does not exist");
             return parent.getFunction(name);
         }
         return functions.get(name);
     }
+
+
 }

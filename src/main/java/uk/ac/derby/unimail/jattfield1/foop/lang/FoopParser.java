@@ -9,6 +9,8 @@ import uk.ac.derby.unimail.jattfield1.foop.parser.ast.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FoopParser implements FoopVisitor {
     private static FoopParser instance;
@@ -58,10 +60,17 @@ public class FoopParser implements FoopVisitor {
     @Override
     public Object visit(ASTParameterList node, Object data) {
         ArrayList<Constant> params = new ArrayList<>();
-        for (int i=0; i < node.jjtGetNumChildren(); i++){
-            params.add(new Constant(getChild(node, i)));
+        for (int i=0; i < node.jjtGetNumChildren(); i=i+2){
+            Constant c = new Constant(getChild(node, i+1));
+            c.setType(getChild(node, i));
+            params.add(c);
         }
         return params;
+    }
+
+    @Override
+    public Object visit(ASTAttributeDefinition node, Object data) {
+        return null;
     }
 
     @Override
@@ -178,8 +187,9 @@ public class FoopParser implements FoopVisitor {
 
     @Override
     public Object visit(ASTAssignment node, Object data) {
-        Variable variable = new Variable(getChild(node, 0));
-        variable.setData(getChild(node, 1));
+        Variable variable = new Variable(getChild(node, 1));
+        variable.setType(getChild(node, 0));
+        variable.setData(getChild(node, 2));
         currentScope.putNamedIdentity(variable);
         return variable;
     }
@@ -239,7 +249,7 @@ public class FoopParser implements FoopVisitor {
 
     @Override
     public Object visit(ASTClassIdentifier node, Object data) {
-        return null;
+        return node.tokenValue;
     }
 
     @Override
