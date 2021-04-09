@@ -6,7 +6,7 @@ public class InterpreterTests {
 
     @Test
     public void function(){
-        String code = "Int x = 20; meth x expects Int y does { print y; } x(x);";
+        String code = "Int x = 20; meth x expects Int y { print y; } x(x);";
         Foop.fromString(code);
     }
 
@@ -14,7 +14,7 @@ public class InterpreterTests {
     public void assignFunctionResult(){
         StringBuilder sb = new StringBuilder();
         sb.append("Int x = 20;")
-                .append("meth x expects Int y does { y; }")
+                .append("meth x expects Int y { y; }")
                 .append("print x(x);");
         Foop.fromString(sb.toString());
     }

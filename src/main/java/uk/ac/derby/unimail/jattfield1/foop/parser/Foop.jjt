@@ -141,6 +141,7 @@ void statement() #Statement :
 void assignableStatement() :
 {}
 {
+    LOOKAHEAD(2)
     functionCall()
     | expression()
 }
@@ -181,7 +182,7 @@ void attributeDefinition() #AttributeDefinition :
 void functionDefinition() #FunctionDefinition :
 {}
 {
-    <METHOD> functionIdentifier() parameterList() <DOES> codeBlock()
+    <METHOD> functionIdentifier() parameterList() codeBlock()
 }
 
 void codeBlock() #CodeBlock :

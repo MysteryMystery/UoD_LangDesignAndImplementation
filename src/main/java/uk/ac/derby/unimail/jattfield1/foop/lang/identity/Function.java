@@ -6,6 +6,7 @@ import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 import uk.ac.derby.unimail.jattfield1.foop.parser.ast.SimpleNode;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Function {
     private LinkedHashMap<String, Constant> params; // to maintain insertion order
@@ -65,9 +66,10 @@ public class Function {
         // set scope of parser to this scope, then reset at end then return value - by Parse.setScope etc.
         parser.newScope();
         injectArgsToScope(parser.getCurrentScope());
-        //System.out.println("vars: " + parser.getCurrentScope().getVariables().entrySet().stream().map(Map.Entry::getValue).map(NamedIdentity::toString).collect(Collectors.joining(", ")));
-        Object ret = functionBody.childrenAccept(parser, null);
-        System.out.println(ret);
+        //System.out.println("vars: " + parser.getCurrentScope().getVariables().values().stream().map(ni -> ni.getName() + ": " + ni.getResult()).collect(Collectors.joining(", ")));
+
+        // Just the code block rule. In Codeblock processing, the final is returned anyway.
+        Object ret = functionBody.jjtAccept(parser, null);
         parser.parentScope();
         clearArgs();
         return ret;

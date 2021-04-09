@@ -80,9 +80,19 @@ public class FoopParser implements FoopVisitor {
         return function;
     }
 
+    /**
+     *
+     * @param node
+     * @param data
+     * @return result of last instruction of the block - useful for the functions
+     */
     @Override
     public Object visit(ASTCodeBlock node, Object data) {
-        return node.childrenAccept(this, data);
+        //return node.childrenAccept(this, data);
+        Object o = null;
+        for(int i = 0; i < node.jjtGetNumChildren(); i++)
+            o = node.jjtGetChild(i).jjtAccept(this, null);
+        return o;
     }
 
     @Override
