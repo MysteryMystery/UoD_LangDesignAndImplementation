@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang;
 
+import uk.ac.derby.unimail.jattfield1.foop.lang.controlflow.IfStatement;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Constant;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
@@ -8,6 +9,7 @@ import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.*;
 import uk.ac.derby.unimail.jattfield1.foop.parser.ast.*;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,9 +49,15 @@ public class FoopParser implements FoopVisitor {
         return (T) node.jjtGetChild(index).jjtAccept(this, null);
     }
 
+    private void eachChild(Node node, java.util.function.Function<Node, Object> f){
+        for (int i = 0; i < node.jjtGetNumChildren(); i++){
+            f.apply(node.jjtGetChild(i));
+        }
+    };
+
     @Override
     public Object visit(SimpleNode node, Object data) {
-        return null;
+         throw new RuntimeException("No matching rule found.");
     }
 
     @Override
@@ -202,6 +210,32 @@ public class FoopParser implements FoopVisitor {
         variable.setData(getChild(node, 2));
         currentScope.putNamedIdentity(variable);
         return variable;
+    }
+
+    @Override
+    public Object visit(ASTIfStatement node, Object data) {
+        System.out.println("if parent");
+
+        IfStatement ifStatement = new IfStatement();
+        for (int i = 0; i < node.jjtGetNumChildren(); i++){
+            node.jjtGetChild(i).jjtAccept(this, ifStatement);
+        }
+        return ifStatement.execute(this);
+    }
+
+    @Override
+    public Object visit(ASTIfIf node, Object data) {
+        return ((IfStatement) data).putCase((SimpleNode) node.jjtGetChild(0), (SimpleNode) node.jjtGetChild(1));
+    }
+
+    @Override
+    public Object visit(ASTIfElif node, Object data) {
+        return ((IfStatement) data).putCase((SimpleNode) node.jjtGetChild(0), (SimpleNode) node.jjtGetChild(1));
+    }
+
+    @Override
+    public Object visit(ASTIfElse node, Object data) {
+        return ((IfStatement) data).putCase(null, (SimpleNode) node.jjtGetChild(0));
     }
 
     @Override

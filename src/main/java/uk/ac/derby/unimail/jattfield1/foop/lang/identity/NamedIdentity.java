@@ -2,7 +2,6 @@ package uk.ac.derby.unimail.jattfield1.foop.lang.identity;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveValue;
 
-import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 
 public abstract class NamedIdentity implements PrimitiveValue {

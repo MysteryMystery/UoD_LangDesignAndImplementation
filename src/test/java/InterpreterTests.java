@@ -31,4 +31,21 @@ public class InterpreterTests {
         Foop.fromString(code);
     }
 
+    @Test
+    public void ifStatement(){
+        String code = "? (true) { print \"true\"; } ";
+        Foop.fromString(code);
+    }
+
+    @Test
+    public void ifElifStatement(){
+        String code = "? (false) { print \"true\"; } ?: (false) { print \"false\"; } : { print \"else\"; } ";
+        Foop.fromString(code);
+    }
+
+    @Test
+    public void assignIfElse() {
+        String code = "Int x = ? (5 > 6) { 5; } : { 0; }; print x;";
+        Foop.fromString(code);
+    }
 }

@@ -112,8 +112,9 @@ TOKEN :
 | < LE: "lte" >
 | < GE: "gte" >
 | < NE: "is not" >
-| < TERN_IF: "?" >
-| < TERN_ELSE: ":" >
+| < IF: "?" >
+| < ELIF: "?:">
+| < ELSE: ":" >
 | < ADD: "+" >
 | < SUB: "-" >
 | < MUL: "*" >
@@ -131,7 +132,8 @@ void statement() #Statement :
 {}
 {
     LOOKAHEAD(3)
-    expression() ";"
+    orExpression() ";"
+    | ifStatement()
     | LOOKAHEAD(2) assignmentExpression() ";"
     | functionCall() ";"
     | output() ";"
@@ -207,7 +209,7 @@ void assignmentExpression():
 {}
 {
      LOOKAHEAD(2)
-            classIdentifier() identifier() <ASSIGN> orExpression() #Assignment(3)
+            classIdentifier() identifier() <ASSIGN> expression() #Assignment(3)
             | reassignmentExpression()
 }
 
@@ -215,12 +217,39 @@ void expression():
 {}
 {
     orExpression()
+    | ifStatement()
+}
+
+void ifStatement() #IfStatement :
+{}
+{
+    ifIf()
+    ( ifElif() )*
+    [ ifElse() ]
+}
+
+void ifIf() #IfIf :
+{}
+{
+    <IF> expression() codeBlock()
+}
+
+void ifElif() #IfElif :
+{}
+{
+    <ELIF> expression() codeBlock()
+}
+
+void ifElse() #IfElse :
+{}
+{
+    <ELSE> codeBlock()
 }
 
 void reassignmentExpression():
 {}
 {
-    identifier() <ASSIGN> arithmaticExpression() #Reassignment(2)
+    identifier() <ASSIGN> expression() #Reassignment(2)
 }
 
 void orExpression() :
