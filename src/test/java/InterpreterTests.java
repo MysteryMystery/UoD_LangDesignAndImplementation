@@ -48,4 +48,10 @@ public class InterpreterTests {
         String code = "Int x = ? (5 > 6) { 5; } : { 0; }; print x;";
         Foop.fromString(code);
     }
+
+    @Test
+    public void whileTest() {
+        String code = "Int x = 0; while x < 1 { x = x + 1; }";
+        Foop.fromString(code);
+    }
 }

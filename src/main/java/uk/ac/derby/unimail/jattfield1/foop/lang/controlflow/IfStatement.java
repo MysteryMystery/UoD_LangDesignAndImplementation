@@ -15,7 +15,7 @@ import uk.ac.derby.unimail.jattfield1.foop.parser.ast.SimpleNode;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class IfStatement {
+public class IfStatement implements ControlFlowStatement {
     //Many unique keys, null is else case
     private LinkedHashMap<SimpleNode, SimpleNode> cases;
 

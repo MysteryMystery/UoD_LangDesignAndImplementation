@@ -66,6 +66,4 @@ public class ExecutionContext {
         }
         return functions.get(name);
     }
-
-
 }

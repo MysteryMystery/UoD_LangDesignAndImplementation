@@ -1,6 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.foop.lang;
 
 import uk.ac.derby.unimail.jattfield1.foop.lang.controlflow.IfStatement;
+import uk.ac.derby.unimail.jattfield1.foop.lang.controlflow.WhileStatement;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Constant;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Function;
 import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
@@ -213,9 +214,15 @@ public class FoopParser implements FoopVisitor {
     }
 
     @Override
-    public Object visit(ASTIfStatement node, Object data) {
-        System.out.println("if parent");
+    public Object visit(ASTWhileStatement node, Object data) {
+        WhileStatement statement = new WhileStatement();
+        statement.setBooleanCondition((SimpleNode) node.jjtGetChild(0));
+        statement.setCodeBlock((ASTCodeBlock) node.jjtGetChild(1));
+        return statement.execute(this);
+    }
 
+    @Override
+    public Object visit(ASTIfStatement node, Object data) {
         IfStatement ifStatement = new IfStatement();
         for (int i = 0; i < node.jjtGetNumChildren(); i++){
             node.jjtGetChild(i).jjtAccept(this, ifStatement);
