@@ -1,3 +1,4 @@
+import kotlin.ExtensionFunctionType;
 import org.junit.jupiter.api.Test;
 import uk.ac.derby.unimail.jattfield1.foop.lang.Foop;
 import uk.ac.derby.unimail.jattfield1.foop.lang.FoopParser;
@@ -21,7 +22,7 @@ public class InterpreterTests {
 
     @Test
     public void var(){
-        String code = "Int x = 20; x;";
+        String code = "Int x = 20; print x; x = x + 1; print x;";
         Foop.fromString(code);
     }
 
@@ -51,7 +52,19 @@ public class InterpreterTests {
 
     @Test
     public void whileTest() {
-        String code = "Int x = 0; while x < 1 { x = x + 1; }";
+        String code = "Int x = 0; while x < 10 { x = x + 1; print x;}";
+        Foop.fromString(code);
+    }
+
+    @Test
+    public void twoDArray(){
+        String code = "Collection x = [[1,2],[2,3],2]; print x;";
+        Foop.fromString(code);
+    }
+
+    @Test
+    public void indexTest(){
+        String code = "Collection x = [1,2,3]; print x[0];";
         Foop.fromString(code);
     }
 }

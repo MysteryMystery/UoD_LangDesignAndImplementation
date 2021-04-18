@@ -31,4 +31,9 @@ public class Constant extends NamedIdentity{
     public PrimitiveValue getResult() {
         return data;
     }
+
+    @Override
+    public PrimitiveValue nthElement(int n) {
+        return data.nthElement(n);
+    }
 }

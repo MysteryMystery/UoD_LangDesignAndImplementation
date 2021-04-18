@@ -29,6 +29,11 @@ public class Variable extends NamedIdentity {
     }
 
     @Override
+    public PrimitiveValue nthElement(int n) {
+        return data.nthElement(n);
+    }
+
+    @Override
     public ArrayList<PrimitiveValue> toCollection() {
         ArrayList<PrimitiveValue> x = new ArrayList<>();
         x.add(this);

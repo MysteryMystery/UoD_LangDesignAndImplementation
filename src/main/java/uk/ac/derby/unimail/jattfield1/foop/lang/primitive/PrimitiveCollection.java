@@ -92,6 +92,11 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     }
 
     @Override
+    public PrimitiveValue nthElement(int n) {
+        return boxed.get(n);
+    }
+
+    @Override
     public String toString() {
         return "[" + boxed.stream().map(PrimitiveValue::toString).collect(Collectors.joining(", ")) + "]";
     }

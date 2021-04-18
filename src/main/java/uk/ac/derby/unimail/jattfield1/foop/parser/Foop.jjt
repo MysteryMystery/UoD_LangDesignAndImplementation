@@ -319,7 +319,6 @@ void primaryExpression():
 {
     deference()
     | literal()
-    | collection()
     | "(" expression() ")"
 }
 
@@ -332,7 +331,13 @@ void collection() #Collection :
 void literal():
 {}
 {
-    integer() | bool() | string()
+    integer() | bool() | string() | collection()
+}
+
+void nthElement() #NthElement:
+{}
+{
+    deference() <SQU_BRACKET_L> integer() <SQU_BRACKET_R>
 }
 
 void functionIdentifier() #FunctionIdentifier :

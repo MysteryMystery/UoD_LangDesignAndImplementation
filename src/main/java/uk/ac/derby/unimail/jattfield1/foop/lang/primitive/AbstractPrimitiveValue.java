@@ -25,4 +25,9 @@ public abstract class AbstractPrimitiveValue extends Class implements PrimitiveV
             return this.equalTo((PrimitiveValue) o).toBool();
         return false;
     }
+
+    @Override
+    public PrimitiveValue nthElement(int n) {
+        throw new RuntimeException("Cannot index " + getType());
+    }
 }

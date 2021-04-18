@@ -110,6 +110,11 @@ public class FoopParser implements FoopVisitor {
         return value;
     }
 
+    public Object visit(ASTNthElement node, Object data) {
+        System.out.println("seen");
+        return null;
+    }
+
     @Override
     public Object visit(ASTClassDefinition node, Object data) {
         return null;
@@ -290,7 +295,9 @@ public class FoopParser implements FoopVisitor {
 
     @Override
     public Object visit(ASTLessThan node, Object data) {
-        return this.<PrimitiveValue>getChild(node, 0).lessThan(getChild(node, 1));
+        PrimitiveValue o = getChild(node, 0);
+        PrimitiveValue i = getChild(node, 1);
+        return o.lessThan(i);
     }
 
     @Override

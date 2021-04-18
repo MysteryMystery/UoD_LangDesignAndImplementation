@@ -23,6 +23,8 @@ public interface PrimitiveValue {
     PrimitiveValue and (PrimitiveValue other);
     PrimitiveValue not ();
 
+    PrimitiveValue nthElement(int n);
+
     String getType();
 
     // Casts

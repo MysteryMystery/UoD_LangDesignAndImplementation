@@ -30,22 +30,15 @@ public class WhileStatement {
     }
 
     public Object execute(FoopParser visitor){
-        PrimitiveValue loopCond = (PrimitiveValue) booleanCondition.jjtAccept(visitor, null);
         Object result = null;
-        System.out.println(visitor.getCurrentScope().getVariables().entrySet().stream().map(x -> x.getKey() + ": " + x.getValue()).collect(Collectors.joining(", ")));
-        System.out.println(codeBlock.jjtAccept(visitor, null));
-        System.out.println(codeBlock.jjtAccept(visitor, null));
-        System.out.println(codeBlock.jjtAccept(visitor, null));
-        System.out.println(visitor.getCurrentScope().getVariables().entrySet().stream().map(x -> x.getKey() + ": " + x.getValue()).collect(Collectors.joining(", ")));
-        System.out.println(loopCond.toBool());
-        return null;
 
-        /*
-        while (loopCond.toBool()){
+        while (getLoopCondition(visitor)){
             result = codeBlock.jjtAccept(visitor, null);
         }
         return result;
-         */
+    }
 
+    private boolean getLoopCondition(FoopParser visitor){
+        return ((PrimitiveValue) booleanCondition.jjtAccept(visitor, null)).toBool();
     }
 }
