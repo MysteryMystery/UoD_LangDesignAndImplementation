@@ -92,8 +92,14 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     }
 
     @Override
-    public PrimitiveValue nthElement(int n) {
+    public PrimitiveValue getNthElement(int n) {
         return boxed.get(n);
+    }
+
+    @Override
+    public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
+        boxed.set(n, element);
+        return new PrimitiveCollection(boxed);
     }
 
     @Override

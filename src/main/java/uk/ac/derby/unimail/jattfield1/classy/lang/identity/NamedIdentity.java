@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.classy.lang.identity;
 
+import uk.ac.derby.unimail.jattfield1.classy.lang.ExecutionContext;
 import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.PrimitiveValue;
 
 import java.util.ArrayList;
@@ -145,5 +146,9 @@ public abstract class NamedIdentity implements PrimitiveValue {
     protected void validateSet(PrimitiveValue data){
         if (!this.getType().equals(data.getType()))
             throw new RuntimeException("Incorrect datatype for " + getName() + ", expecting " + getType() + " but got " + data.getType());
+    }
+
+    public void saveToScope(ExecutionContext scope){
+        scope.putNamedIdentity(this);
     }
 }

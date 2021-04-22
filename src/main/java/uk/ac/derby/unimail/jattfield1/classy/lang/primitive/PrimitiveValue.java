@@ -23,7 +23,8 @@ public interface PrimitiveValue {
     PrimitiveValue and (PrimitiveValue other);
     PrimitiveValue not ();
 
-    PrimitiveValue nthElement(int n);
+    PrimitiveValue getNthElement(int n);
+    PrimitiveValue setNthElement(int n, PrimitiveValue element);
 
     String getType();
 

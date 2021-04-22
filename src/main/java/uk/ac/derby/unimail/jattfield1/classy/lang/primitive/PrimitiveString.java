@@ -86,8 +86,16 @@ public class PrimitiveString extends AbstractPrimitiveValue{
     }
 
     @Override
-    public PrimitiveValue nthElement(int n) {
+    public PrimitiveValue getNthElement(int n) {
         return new PrimitiveString(String.valueOf(boxed.charAt(n)));
+    }
+
+    @Override
+    public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
+        StringBuilder sb = new StringBuilder(boxed);
+        sb.setCharAt(n, element.toString().charAt(0));
+        boxed = sb.toString();
+        return this;
     }
 
     @Override

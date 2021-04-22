@@ -25,7 +25,12 @@ public abstract class AbstractPrimitiveValue extends Class implements PrimitiveV
     }
 
     @Override
-    public PrimitiveValue nthElement(int n) {
+    public PrimitiveValue getNthElement(int n) {
+        throw new RuntimeException("Cannot index " + getType());
+    }
+
+    @Override
+    public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
         throw new RuntimeException("Cannot index " + getType());
     }
 }

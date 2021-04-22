@@ -2,10 +2,7 @@ package uk.ac.derby.unimail.jattfield1.classy.lang;
 
 import uk.ac.derby.unimail.jattfield1.classy.lang.controlflow.IfStatement;
 import uk.ac.derby.unimail.jattfield1.classy.lang.controlflow.WhileStatement;
-import uk.ac.derby.unimail.jattfield1.classy.lang.identity.Constant;
-import uk.ac.derby.unimail.jattfield1.classy.lang.identity.Function;
-import uk.ac.derby.unimail.jattfield1.classy.lang.identity.NamedIdentity;
-import uk.ac.derby.unimail.jattfield1.classy.lang.identity.Variable;
+import uk.ac.derby.unimail.jattfield1.classy.lang.identity.*;
 import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.*;
 import uk.ac.derby.unimail.jattfield1.classy.parser.ast.*;
 
@@ -147,10 +144,10 @@ public class ClassyParser implements ClassyVisitor {
         if (node.jjtGetNumChildren() == 1)
             return namedIdentity;
 
-        PrimitiveValue selected = null;
+        NamedIdentity selected = namedIdentity;
         for(int i = 1; i < node.jjtGetNumChildren(); i++){
             int index =  this.<PrimitiveValue>getChild(node, i).toInt();
-            selected = namedIdentity.nthElement(index);
+            selected = new IdentityElement(namedIdentity, index);
         }
         return selected;
     }
@@ -220,7 +217,7 @@ public class ClassyParser implements ClassyVisitor {
         Variable variable = new Variable(getChild(node, 1));
         variable.setType(getChild(node, 0));
         variable.setData(getChild(node, 2));
-        currentScope.putNamedIdentity(variable);
+        variable.saveToScope(currentScope);
         return variable;
     }
 
@@ -258,9 +255,9 @@ public class ClassyParser implements ClassyVisitor {
 
     @Override
     public Object visit(ASTReassignment node, Object data) {
-        NamedIdentity variable = currentScope.getNamedIdentity(getChild(node, 0));
+        NamedIdentity variable = getChild(node, 0);
         variable.setData(getChild(node, 1));
-        currentScope.putNamedIdentity(variable);
+        variable.saveToScope(currentScope);
         return variable;
     }
 

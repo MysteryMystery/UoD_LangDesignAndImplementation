@@ -69,6 +69,8 @@ public class InterpreterTests {
 
     @Test
     public void indexReassignment() {
-
+        String code = "Collection x = [1,2,3]; x:0 = 2; print x;";
+        code += "String str = \"Hello World!\"; str:0 = \"J\"; print str;";
+        Classy.fromString(code);
     }
 }

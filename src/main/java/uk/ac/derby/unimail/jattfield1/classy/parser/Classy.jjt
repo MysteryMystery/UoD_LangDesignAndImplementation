@@ -133,11 +133,11 @@ ASTProgram program() #Program:
 void statement() #Statement :
 {}
 {
-    LOOKAHEAD(3)
+    LOOKAHEAD(2) assignmentExpression() ";"
+    | LOOKAHEAD(3)
     orExpression() ";"
     | ifStatement()
     | whileStatement()
-    | LOOKAHEAD(2) assignmentExpression() ";"
     | functionCall() ";"
     | output() ";"
     | functionDefinition()
@@ -211,9 +211,10 @@ void deference() #Deference:
 void assignmentExpression():
 {}
 {
-     LOOKAHEAD(2)
-            classIdentifier() identifier() <ASSIGN> expression() #Assignment(3)
-            | reassignmentExpression()
+    LOOKAHEAD(2)
+    classIdentifier() identifier() <ASSIGN> expression() #Assignment(3)
+    |
+    deference() <ASSIGN> expression() #Reassignment(2)
 }
 
 void expression():
@@ -253,12 +254,6 @@ void ifElse() #IfElse :
 {}
 {
     <ELSE> codeBlock()
-}
-
-void reassignmentExpression():
-{}
-{
-    identifier() <ASSIGN> expression() #Reassignment(2)
 }
 
 void orExpression() :
@@ -333,12 +328,6 @@ void literal():
 {}
 {
     integer() | bool() | string() | collection()
-}
-
-void nthElement() #NthElement:
-{}
-{
-    deference() <SQU_BRACKET_L> integer() <SQU_BRACKET_R>
 }
 
 void functionIdentifier() #FunctionIdentifier :
