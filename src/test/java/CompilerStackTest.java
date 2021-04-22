@@ -1,15 +1,12 @@
 import org.junit.jupiter.api.Test;
-import uk.ac.derby.unimail.jattfield1.foop.compiler.FoopCompiler;
-import uk.ac.derby.unimail.jattfield1.foop.compiler.Scope;
-import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionAdd;
-import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionPrint;
-import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionVariableAssign;
-import uk.ac.derby.unimail.jattfield1.foop.compiler.instruction.InstructionVariableGet;
-import uk.ac.derby.unimail.jattfield1.foop.lang.identity.NamedIdentity;
-import uk.ac.derby.unimail.jattfield1.foop.lang.identity.Variable;
-import uk.ac.derby.unimail.jattfield1.foop.lang.primitive.PrimitiveInt;
+import uk.ac.derby.unimail.jattfield1.classy.compiler.FoopCompiler;
+import uk.ac.derby.unimail.jattfield1.classy.compiler.Scope;
+import uk.ac.derby.unimail.jattfield1.classy.compiler.instruction.InstructionAdd;
+import uk.ac.derby.unimail.jattfield1.classy.compiler.instruction.InstructionPrint;
+import uk.ac.derby.unimail.jattfield1.classy.compiler.instruction.InstructionVariableAssign;
+import uk.ac.derby.unimail.jattfield1.classy.compiler.instruction.InstructionVariableGet;
+import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.PrimitiveInt;
 
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
