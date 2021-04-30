@@ -10,6 +10,7 @@ import uk.ac.derby.unimail.jattfield1.classy.parser.ast.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClassyParser implements ClassyVisitor {
     private static ClassyParser instance;
@@ -30,6 +31,14 @@ public class ClassyParser implements ClassyVisitor {
 
     public void newScope() {
         this.currentScope = new ExecutionContext(currentScope);
+    }
+
+    public Object swapScope(ExecutionContext newScope, Subroutine routine){
+        ExecutionContext temp = currentScope;
+        currentScope = newScope;
+        Object result = routine.run();
+        currentScope = temp;
+        return result;
     }
 
     public void parentScope(){
@@ -120,16 +129,13 @@ public class ClassyParser implements ClassyVisitor {
         return data;
     }
 
-    public Object visit(ASTNthElement node, Object data) {
-        System.out.println("seen");
-        return null;
-    }
-
     @Override
     public Object visit(ASTFunctionCall node, Object data) {
         //TODO dry it out
 
         if(node.jjtGetNumChildren() == 3){
+            //System.out.println(currentScope.getVariables().values().stream().map(NamedIdentity::getName).collect(Collectors.joining(", ")));
+            //System.out.println((String) getChild(node, 0));
             //Class method call
             NamedIdentity identity = currentScope.getNamedIdentity(getChild(node, 0));
             Class embedded = (Class) identity.getResult();
@@ -139,7 +145,8 @@ public class ClassyParser implements ClassyVisitor {
                 throw new RuntimeException("Method " + getChild(node, 1) + " does not exist for " + embedded.getType());
             List<PrimitiveValue> args = getChild(node, 2);
             args.forEach(function::setPositionalArg);
-            return function.execute(this);
+
+            return swapScope(embeddedContext, () -> function.execute(this));
         }
 
         //Standard method call

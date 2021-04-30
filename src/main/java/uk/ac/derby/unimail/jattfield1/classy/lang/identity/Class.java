@@ -164,4 +164,9 @@ public class Class implements PrimitiveValue, Cloneable {
             throw new RuntimeException("Underlying error: cloning not possible.");
         }
     }
+
+    @Override
+    public String toString() {
+        return getType();
+    }
 }

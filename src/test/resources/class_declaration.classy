@@ -7,8 +7,10 @@ class Sorter {
         Int i = 0;
         while i < 7 {
             print toSort:i;
+            i = i + 1;
         }
     }
 }
 
 Sorter sorter = new Sorter;
+sorter->sort("asc");

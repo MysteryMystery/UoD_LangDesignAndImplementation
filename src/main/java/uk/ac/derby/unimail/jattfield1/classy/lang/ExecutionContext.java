@@ -7,6 +7,7 @@ import uk.ac.derby.unimail.jattfield1.classy.lang.identity.NamedIdentity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ExecutionContext {
     private HashMap<String, NamedIdentity> variables = new HashMap<>();
@@ -63,6 +64,7 @@ public class ExecutionContext {
     }
 
     public NamedIdentity getNamedIdentity(String name){
+        //System.out.println(String.join(", ", this.variables.keySet()));
         if (!this.variables.containsKey(name)){
             if (parent == null)
                 throw new RuntimeException("Variable does not exist");
