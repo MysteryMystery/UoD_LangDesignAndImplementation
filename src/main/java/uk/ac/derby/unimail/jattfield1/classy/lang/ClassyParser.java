@@ -1,8 +1,10 @@
 package uk.ac.derby.unimail.jattfield1.classy.lang;
 
+import uk.ac.derby.unimail.jattfield1.classy.compiler.Scope;
 import uk.ac.derby.unimail.jattfield1.classy.lang.controlflow.IfStatement;
 import uk.ac.derby.unimail.jattfield1.classy.lang.controlflow.WhileStatement;
 import uk.ac.derby.unimail.jattfield1.classy.lang.identity.*;
+import uk.ac.derby.unimail.jattfield1.classy.lang.identity.Class;
 import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.*;
 import uk.ac.derby.unimail.jattfield1.classy.parser.ast.*;
 
@@ -48,7 +50,7 @@ public class ClassyParser implements ClassyVisitor {
         for (int i = 0; i < node.jjtGetNumChildren(); i++){
             f.apply(node.jjtGetChild(i));
         }
-    };
+    }
 
     @Override
     public Object visit(SimpleNode node, Object data) {
@@ -69,11 +71,6 @@ public class ClassyParser implements ClassyVisitor {
             params.add(c);
         }
         return params;
-    }
-
-    @Override
-    public Object visit(ASTAttributeDefinition node, Object data) {
-        return null;
     }
 
     @Override
@@ -104,18 +101,48 @@ public class ClassyParser implements ClassyVisitor {
         return value;
     }
 
+    @Override
+    public Object visit(ASTClassDefinition node, Object data) {
+        Class newClass = new Class(getChild(node, 0));
+        ExecutionContext lastScope = currentScope;
+        currentScope = newClass.getScope();
+        for (int i=0; i< node.jjtGetNumChildren(); i++)
+            node.jjtGetChild(i).jjtAccept(this, newClass);
+        currentScope = lastScope;
+        currentScope.putClass(newClass);
+        return newClass;
+    }
+
+    @Override
+    public Object visit(ASTClassMemberDefinition node, Object data) {
+        String scope = getChild(node, 0); //TODO make scopes mean something
+        node.jjtGetChild(1).jjtAccept(this, data);
+        return data;
+    }
+
     public Object visit(ASTNthElement node, Object data) {
         System.out.println("seen");
         return null;
     }
 
     @Override
-    public Object visit(ASTClassDefinition node, Object data) {
-        return null;
-    }
-
-    @Override
     public Object visit(ASTFunctionCall node, Object data) {
+        //TODO dry it out
+
+        if(node.jjtGetNumChildren() == 3){
+            //Class method call
+            NamedIdentity identity = currentScope.getNamedIdentity(getChild(node, 0));
+            Class embedded = (Class) identity.getResult();
+            ExecutionContext embeddedContext = embedded.getScope();
+            Function function = embeddedContext.getFunction(getChild(node, 1));
+            if (function == null)
+                throw new RuntimeException("Method " + getChild(node, 1) + " does not exist for " + embedded.getType());
+            List<PrimitiveValue> args = getChild(node, 2);
+            args.forEach(function::setPositionalArg);
+            return function.execute(this);
+        }
+
+        //Standard method call
         Function function = currentScope.getFunction(getChild(node, 0));
         List<PrimitiveValue> args = getChild(node, 1);
         args.forEach(function::setPositionalArg);
@@ -150,6 +177,14 @@ public class ClassyParser implements ClassyVisitor {
             selected = new IdentityElement(namedIdentity, index);
         }
         return selected;
+    }
+
+    @Override
+    public Object visit(ASTAssignmentInstantation node, Object data) {
+        Class cls = currentScope.getClassyClass(getChild(node, 0));
+        if (cls != null)
+            return cls;
+        throw new RuntimeException("Class " + (String) getChild(node, 0) + " does not exist.");
     }
 
     @Override
@@ -310,6 +345,11 @@ public class ClassyParser implements ClassyVisitor {
 
     @Override
     public Object visit(ASTClassIdentifier node, Object data) {
+        return node.tokenValue;
+    }
+
+    @Override
+    public Object visit(ASTScopeDeclaration node, Object data) {
         return node.tokenValue;
     }
 

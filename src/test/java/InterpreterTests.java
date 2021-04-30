@@ -73,4 +73,15 @@ public class InterpreterTests {
         code += "String str = \"Hello World!\"; str:0 = \"J\"; print str;";
         Classy.fromString(code);
     }
+
+    @Test
+    public void arrayAppending(){
+        String code = "Collection x = [1,2,3,4]; x + 5; print x;";
+        Classy.fromString(code);
+    }
+
+    @Test
+    public void classDeclaration(){
+        Classy.fromResource("class_declaration.classy");
+    }
 }

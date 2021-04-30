@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.classy.lang;
 
+import uk.ac.derby.unimail.jattfield1.classy.lang.identity.Class;
 import uk.ac.derby.unimail.jattfield1.classy.lang.identity.Function;
 import uk.ac.derby.unimail.jattfield1.classy.lang.identity.NamedIdentity;
 
@@ -10,6 +11,7 @@ import java.util.List;
 public class ExecutionContext {
     private HashMap<String, NamedIdentity> variables = new HashMap<>();
     private HashMap<String, Function> functions = new HashMap<>();
+    private HashMap<String, Class> classes = new HashMap<>();
 
     private List<ExecutionContext> children = new ArrayList<>();
     private ExecutionContext parent = null;
@@ -39,6 +41,21 @@ public class ExecutionContext {
         if (functions.containsKey(function.getName()))
             throw new RuntimeException("Function " + function.getName() + " already exists.");
         functions.put(function.getName(), function);
+    }
+
+    public void putClass(Class cls){
+        if (classes.containsKey(cls.getType()))
+            throw new RuntimeException("Class " + cls.getType() + " already exists.");
+        classes.put(cls.getType(), cls);
+    }
+
+    public Class getClassyClass(String name){
+        if (!this.classes.containsKey(name)){
+            if (parent == null)
+                throw new RuntimeException("Class " + name + " does not exist");
+            return parent.getClassyClass(name);
+        }
+        return classes.get(name);
     }
 
     public boolean hasNamedIdentity(String name){

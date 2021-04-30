@@ -4,6 +4,7 @@ import uk.ac.derby.unimail.jattfield1.classy.parser.ParseException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public class Classy {
     public static void main(String[] args) {
@@ -12,6 +13,16 @@ public class Classy {
             //System.out.println((new BufferedReader(new InputStreamReader(input))).lines().collect(Collectors.joining("\n")));
             run(input);
         } catch (Throwable e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void fromResource(String resourceName){
+        try{
+            ClassLoader classLoader = Classy.class.getClassLoader();
+            File file = new File(Objects.requireNonNull(classLoader.getResource(resourceName)).getFile());
+            run(new FileInputStream(file));
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
