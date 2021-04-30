@@ -84,4 +84,9 @@ public class InterpreterTests {
     public void classDeclaration(){
         Classy.fromResource("class_declaration.classy");
     }
+
+    @Test
+    public void exampleSorting(){
+        Classy.fromResource("example_sorting.classy");
+    }
 }

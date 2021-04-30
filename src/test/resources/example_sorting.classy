@@ -1,0 +1,16 @@
+class Sorter {
+    +
+    Collection toSort = [1,3,4,2,7,6,5];
+
+    +
+    meth sort {
+        Int i = 0;
+        while i < 7 {
+            print toSort:i;
+            i = i + 1;
+        }
+    }
+}
+
+Sorter sorter = new Sorter;
+sorter->sort();
