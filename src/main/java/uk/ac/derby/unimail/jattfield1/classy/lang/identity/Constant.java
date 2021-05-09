@@ -33,12 +33,12 @@ public class Constant extends NamedIdentity{
     }
 
     @Override
-    public PrimitiveValue getNthElement(int n) {
-        return data.getNthElement(n);
+    public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
+        throw new RuntimeException("Cannot change value of constant: " + getName());
     }
 
     @Override
-    public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
+    public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
         throw new RuntimeException("Cannot change value of constant: " + getName());
     }
 }

@@ -127,33 +127,48 @@ public class Class implements PrimitiveValue, Cloneable {
     }
 
     @Override
+    public PrimitiveValue getElement(PrimitiveValue index) {
+        throw new RuntimeException("Cannot index " + getType());
+    }
+
+    @Override
+    public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
+        throw new RuntimeException("Cannot index " + getType());
+    }
+
+    @Override
     public String getType() {
         return type;
     }
 
     @Override
     public int toInt() {
-        return 0;
+        throw new RuntimeException("Cannot cast to int on " + getType());
     }
 
     @Override
     public double toDouble() {
-        return 0;
+        throw new RuntimeException("Cannot cast to float on " + getType());
     }
 
     @Override
     public float toFloat() {
-        return 0;
+        throw new RuntimeException("Cannot cast to float on " + getType());
     }
 
     @Override
     public boolean toBool() {
-        return false;
+        throw new RuntimeException("Cannot cast to bool on " + getType());
     }
 
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
-        return null;
+        throw new RuntimeException("Cannot cast to collection on " + getType());
+    }
+
+    @Override
+    public HashMap<PrimitiveValue, PrimitiveValue> toMap() {
+        throw new RuntimeException("Cannot cast to dict on " + getType());
     }
 
     @Override

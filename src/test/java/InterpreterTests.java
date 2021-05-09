@@ -89,4 +89,9 @@ public class InterpreterTests {
     public void exampleSorting(){
         Classy.fromResource("example_sorting.classy");
     }
+
+    @Test
+    public void dictionaryTest(){
+        Classy.fromResource("dict_test.classy");
+    }
 }

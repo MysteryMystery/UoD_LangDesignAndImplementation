@@ -1,0 +1,22 @@
+Dict dictionary = {
+    "Hello" : "World"
+    "I will" : "Miss you"
+};
+
+Dict adder = {
+    "Goodbye" : "Moon"
+};
+print "Original: " + dictionary;
+print "Dict to add: " + adder;
+
+dictionary = dictionary + adder;
+print "Result: " + dictionary + "\n";
+
+print "Indexing dict: " + dictionary:"I will" + "\n";
+
+dictionary + ["k","value"];
+print "New dict: " + dictionary;
+
+dictionary + [1,2,"uneven"];
+
+print "But what if we want to concat an uneven collection? \n" + dictionary;

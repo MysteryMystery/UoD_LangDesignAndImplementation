@@ -117,4 +117,14 @@ public class PrimitiveFloat extends AbstractPrimitiveValue{
         x.add(this);
         return x;
     }
+
+    @Override
+    public int hashCode() {
+        return Float.valueOf(boxed).hashCode();
+    }
+
+    @Override
+    protected boolean equalsCheck(PrimitiveValue other) {
+        return boxed == other.toFloat();
+    }
 }

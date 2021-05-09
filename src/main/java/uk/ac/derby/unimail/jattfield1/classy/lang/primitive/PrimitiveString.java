@@ -1,5 +1,6 @@
 package uk.ac.derby.unimail.jattfield1.classy.lang.primitive;
 
+
 import java.util.ArrayList;
 
 public class PrimitiveString extends AbstractPrimitiveValue{
@@ -99,6 +100,23 @@ public class PrimitiveString extends AbstractPrimitiveValue{
     }
 
     @Override
+    public PrimitiveValue getElement(PrimitiveValue index) {
+        if (! (index instanceof PrimitiveInt))
+            throw new RuntimeException("Indexing for " + getType() + " is integer only.");
+        return new PrimitiveString(String.valueOf(boxed.charAt(index.toInt())));
+    }
+
+    @Override
+    public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
+        if (! (index instanceof PrimitiveInt))
+            throw new RuntimeException("Indexing for " + getType() + " is integer only.");
+        StringBuilder sb = new StringBuilder(boxed);
+        sb.setCharAt(index.toInt(), element.toString().charAt(0));
+        boxed = sb.toString();
+        return this;
+    }
+
+    @Override
     public int toInt() {
         return 0;
     }
@@ -126,5 +144,15 @@ public class PrimitiveString extends AbstractPrimitiveValue{
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
         return null;
+    }
+
+    @Override
+    public int hashCode() {
+        return boxed.hashCode();
+    }
+
+    @Override
+    protected boolean equalsCheck(PrimitiveValue other) {
+        return boxed.equals(other.toString());
     }
 }

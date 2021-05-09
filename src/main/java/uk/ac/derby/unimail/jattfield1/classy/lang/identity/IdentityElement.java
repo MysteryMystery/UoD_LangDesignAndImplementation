@@ -6,9 +6,9 @@ import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.PrimitiveValue;
 
 public class IdentityElement extends NamedIdentity {
     private final NamedIdentity theCollection;
-    private final int index;
+    private final PrimitiveValue index;
 
-    public IdentityElement(NamedIdentity possessor, int index) {
+    public IdentityElement(NamedIdentity possessor, PrimitiveValue index) {
         super("");
         this.theCollection = possessor;
         this.index = index;
@@ -16,12 +16,12 @@ public class IdentityElement extends NamedIdentity {
 
     @Override
     public void setData(PrimitiveValue value) {
-        setNthElement(index, value);
+        setElement(index, value);
     }
 
     @Override
     public PrimitiveValue getResult() {
-        return theCollection.getNthElement(index);
+        return theCollection.getElement(index);
     }
 
     @Override
@@ -32,6 +32,16 @@ public class IdentityElement extends NamedIdentity {
     @Override
     public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
         return theCollection.setNthElement(n, element);
+    }
+
+    @Override
+    public PrimitiveValue getElement(PrimitiveValue index) {
+        return getResult().getElement(index);
+    }
+
+    @Override
+    public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
+        return getResult().setElement(index, element);
     }
 
     @Override

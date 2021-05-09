@@ -132,4 +132,14 @@ public class PrimitiveInt extends AbstractPrimitiveValue {
         x.add(this);
         return x;
     }
+
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(boxed).hashCode();
+    }
+
+    @Override
+    protected boolean equalsCheck(PrimitiveValue other) {
+        return boxed == other.toInt();
+    }
 }

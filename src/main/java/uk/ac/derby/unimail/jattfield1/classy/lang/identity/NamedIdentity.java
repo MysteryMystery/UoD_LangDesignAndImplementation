@@ -4,6 +4,7 @@ import uk.ac.derby.unimail.jattfield1.classy.lang.ExecutionContext;
 import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.PrimitiveValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class NamedIdentity implements PrimitiveValue {
     private final String name;
@@ -134,6 +135,11 @@ public abstract class NamedIdentity implements PrimitiveValue {
         return getResult().toCollection();
     }
 
+    @Override
+    public HashMap<PrimitiveValue, PrimitiveValue> toMap() {
+        return getResult().toMap();
+    }
+
     public static PrimitiveValue valueOf(PrimitiveValue primitiveValue){
         // cannot overload this due to inheritance
         if (primitiveValue instanceof Constant)
@@ -150,5 +156,25 @@ public abstract class NamedIdentity implements PrimitiveValue {
 
     public void saveToScope(ExecutionContext scope){
         scope.putNamedIdentity(this);
+    }
+
+    @Override
+    public PrimitiveValue getNthElement(int n) {
+        return getResult().getNthElement(n);
+    }
+
+    @Override
+    public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
+        return getResult().setNthElement(n, element);
+    }
+
+    @Override
+    public PrimitiveValue getElement(PrimitiveValue index) {
+        return getResult().getElement(index);
+    }
+
+    @Override
+    public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
+        return getResult().setElement(index, element);
     }
 }

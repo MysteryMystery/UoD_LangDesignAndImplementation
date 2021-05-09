@@ -203,7 +203,7 @@ void output() #Print:
 void deference() #Deference:
 {}
 {
-    identifier() ( <ELSE> ( integer() | deference() ) )*
+    identifier() ( <ELSE> ( integer() | string() | deference() ) )*
 }
 
 void assignmentExpression():
@@ -320,13 +320,19 @@ void primaryExpression():
 void collection() #Collection :
 {}
 {
-    <SQU_BRACKET_L> literal() ( "," literal() )* [","] <SQU_BRACKET_R>
+    <SQU_BRACKET_L> ( literal() [","] )* <SQU_BRACKET_R>
+}
+
+void dictionary() #Dictionary :
+{}
+{
+    <BRACE_L> ( (literal() | deference()) ":" (literal() | deference()) )* <BRACE_R>
 }
 
 void literal():
 {}
 {
-    integer() | bool() | string() | collection()
+    integer() | bool() | string() | collection() | dictionary()
 }
 
 void functionIdentifier() #FunctionIdentifier :

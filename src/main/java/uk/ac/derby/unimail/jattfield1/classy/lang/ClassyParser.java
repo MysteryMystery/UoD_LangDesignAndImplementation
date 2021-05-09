@@ -9,6 +9,7 @@ import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.*;
 import uk.ac.derby.unimail.jattfield1.classy.parser.ast.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -168,7 +169,7 @@ public class ClassyParser implements ClassyVisitor {
     @Override
     public Object visit(ASTPrint node, Object data) {
         PrimitiveValue c = getChild(node, 0);
-        System.out.println(c.toString());
+        System.out.println(c.toString().replace("\\n", "\n"));
         return c;
     }
 
@@ -180,8 +181,8 @@ public class ClassyParser implements ClassyVisitor {
 
         NamedIdentity selected = namedIdentity;
         for(int i = 1; i < node.jjtGetNumChildren(); i++){
-            int index =  this.<PrimitiveValue>getChild(node, i).toInt();
-            selected = new IdentityElement(namedIdentity, index);
+            PrimitiveValue v = getChild(node, i);
+            selected = new IdentityElement(namedIdentity, v instanceof NamedIdentity ? ((NamedIdentity) v).getResult() : v);
         }
         return selected;
     }
@@ -247,6 +248,20 @@ public class ClassyParser implements ClassyVisitor {
             collection.add(getChild(node, i));
 
         return new PrimitiveCollection(collection);
+    }
+
+    @Override
+    public Object visit(ASTDictionary node, Object data) {
+        HashMap<PrimitiveValue, PrimitiveValue> toBox = new HashMap<>();
+        for (int i = 0; i < node.jjtGetNumChildren(); i += 2){
+            PrimitiveValue key = getChild(node, i);
+            PrimitiveValue value = getChild(node, i+1);
+
+            if (key instanceof NamedIdentity)
+                key = ((NamedIdentity) key).getResult();
+            toBox.put(key, value);
+        }
+        return new PrimitiveDictionary(toBox);
     }
 
     @Override

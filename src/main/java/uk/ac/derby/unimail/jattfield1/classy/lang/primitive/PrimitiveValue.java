@@ -1,6 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.classy.lang.primitive;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface PrimitiveValue {
     // Arithmatic
@@ -23,8 +24,13 @@ public interface PrimitiveValue {
     PrimitiveValue and (PrimitiveValue other);
     PrimitiveValue not ();
 
+    @Deprecated
     PrimitiveValue getNthElement(int n);
+    @Deprecated
     PrimitiveValue setNthElement(int n, PrimitiveValue element);
+
+    PrimitiveValue getElement(PrimitiveValue index);
+    PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element);
 
     String getType();
 
@@ -35,4 +41,5 @@ public interface PrimitiveValue {
     float toFloat();
     boolean toBool();
     ArrayList<PrimitiveValue> toCollection();
+    HashMap<PrimitiveValue, PrimitiveValue> toMap();
 }

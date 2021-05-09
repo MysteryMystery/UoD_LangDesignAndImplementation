@@ -117,4 +117,13 @@ public class PrimitiveBool extends AbstractPrimitiveValue{
         return boxed ? "true" : "false";
     }
 
+    @Override
+    public int hashCode() {
+        return Boolean.valueOf(boxed).hashCode();
+    }
+
+    @Override
+    protected boolean equalsCheck(PrimitiveValue other) {
+        return boxed == other.toBool();
+    }
 }

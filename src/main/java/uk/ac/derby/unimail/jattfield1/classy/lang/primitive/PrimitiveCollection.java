@@ -1,6 +1,7 @@
 package uk.ac.derby.unimail.jattfield1.classy.lang.primitive;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class PrimitiveCollection extends AbstractPrimitiveValue {
@@ -19,29 +20,9 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     }
 
     @Override
-    public PrimitiveValue multiply(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue divide(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
     public PrimitiveValue subtract(PrimitiveValue other) {
         boxed.remove(other);
         return new PrimitiveCollection(boxed);
-    }
-
-    @Override
-    public PrimitiveValue unaryPlus() {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue unarySubtract() {
-        return null;
     }
 
     @Override
@@ -77,21 +58,6 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     }
 
     @Override
-    public PrimitiveValue or(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue and(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue not() {
-        return null;
-    }
-
-    @Override
     public PrimitiveValue getNthElement(int n) {
         return boxed.get(n);
     }
@@ -100,6 +66,25 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     public PrimitiveValue setNthElement(int n, PrimitiveValue element) {
         boxed.set(n, element);
         return new PrimitiveCollection(boxed);
+    }
+
+    @Override
+    public PrimitiveValue getElement(PrimitiveValue index) {
+        if (! (index instanceof PrimitiveInt))
+            throw new RuntimeException("Indexing for " + getType() + " is integer only.");
+        return boxed.get(index.toInt());
+    }
+
+    @Override
+    public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
+        if (! (index instanceof PrimitiveInt))
+            throw new RuntimeException("Indexing for " + getType() + " is integer only.");
+        if (boxed.size() < index.toInt()){
+            for (int i = 0; i < index.toInt() - boxed.size(); i++)
+                boxed.add(new PrimitiveNull());
+        }
+        boxed.set(index.toInt(), element);
+        return this;
     }
 
     @Override
@@ -130,5 +115,26 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
     @Override
     public ArrayList<PrimitiveValue> toCollection() {
         return boxed;
+    }
+
+    @Override
+    public HashMap<PrimitiveValue, PrimitiveValue> toMap(){
+        if (boxed.size() % 2 == 1)
+            throw new RuntimeException("Collection must have even number of elements for casting to dict: " + getType());
+
+        HashMap<PrimitiveValue, PrimitiveValue> toReturn = new HashMap<>();
+        for(int i = 0; i < boxed.size(); i+=2)
+            toReturn.put(boxed.get(i), boxed.get(i+1));
+        return toReturn;
+    }
+
+    @Override
+    public int hashCode() {
+        return boxed.hashCode();
+    }
+
+    @Override
+    protected boolean equalsCheck(PrimitiveValue other) {
+        return boxed.equals(other.toCollection());
     }
 }
