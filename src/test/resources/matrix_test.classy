@@ -1,0 +1,14 @@
+Matrix m = #
+    1 2 3 #
+    2 3 4 #
+    3 4 5 #;
+
+Matrix n = # 1 2 3 # 1 2 3 # 1 2 3 #;
+
+print "Matrix 1: \n" + m;
+
+print "Matrix 2: \n" + n;
+
+print "Added: \n" + (n + m);
+
+print "Subtracted: \n" + (n - m);

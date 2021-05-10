@@ -94,4 +94,7 @@ public class InterpreterTests {
     public void dictionaryTest(){
         Classy.fromResource("dict_test.classy");
     }
+
+    @Test
+    public void matrixTest() {Classy.fromResource("matrix_test.classy");}
 }

@@ -118,22 +118,17 @@ public class PrimitiveString extends AbstractPrimitiveValue{
 
     @Override
     public int toInt() {
-        return 0;
+        return Integer.parseInt(boxed);
     }
 
     @Override
     public double toDouble() {
-        return 0;
+        return Double.parseDouble(boxed);
     }
 
     @Override
     public float toFloat() {
-        return 0;
-    }
-
-    @Override
-    public boolean toBool() {
-        return false;
+        return Float.parseFloat(boxed);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Classy {
     static void run(InputStream input) throws ParseException {
         uk.ac.derby.unimail.jattfield1.classy.parser.Classy classy = new uk.ac.derby.unimail.jattfield1.classy.parser.Classy(input);
 
-        System.out.println("Foop (Functional Object Orientated Programming)");
+        System.out.println("Welcome to Classy.");
         classy.program().jjtAccept(ClassyParser.getInstance(), null);
     }
 }

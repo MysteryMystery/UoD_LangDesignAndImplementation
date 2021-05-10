@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class Class implements PrimitiveValue, Cloneable {
     private final ExecutionContext scope = new ExecutionContext();
@@ -159,6 +160,11 @@ public class Class implements PrimitiveValue, Cloneable {
     @Override
     public boolean toBool() {
         throw new RuntimeException("Cannot cast to bool on " + getType());
+    }
+
+    @Override
+    public Vector<Vector<PrimitiveValue>> toMatrix() {
+        throw new RuntimeException("Cannot cast to matrix on " + getType());
     }
 
     @Override

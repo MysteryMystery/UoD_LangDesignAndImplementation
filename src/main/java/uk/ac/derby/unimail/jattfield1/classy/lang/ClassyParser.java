@@ -11,6 +11,7 @@ import uk.ac.derby.unimail.jattfield1.classy.parser.ast.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 import java.util.stream.Collectors;
 
 public class ClassyParser implements ClassyVisitor {
@@ -265,6 +266,22 @@ public class ClassyParser implements ClassyVisitor {
     }
 
     @Override
+    public Object visit(ASTMatrix node, Object data) {
+        Vector<Vector<PrimitiveValue>> vector = new Vector<>();
+        for (int i = 0; i < node.jjtGetNumChildren(); i++)
+            vector.add(getChild(node, i));
+        return new PrimitiveMatrix(vector);
+    }
+
+    @Override
+    public Object visit(ASTMatrixRow node, Object data) {
+        Vector<PrimitiveValue> vector = new Vector<>();
+        for (int i = 0; i < node.jjtGetNumChildren(); i++)
+            vector.add(getChild(node, i));
+        return vector;
+    }
+
+    @Override
     public Object visit(ASTFunctionIdentifier node, Object data) {
         return node.tokenValue;
     }
@@ -378,6 +395,11 @@ public class ClassyParser implements ClassyVisitor {
     @Override
     public Object visit(ASTInt node, Object data) {
         return new PrimitiveInt(Integer.parseInt(node.tokenValue));
+    }
+
+    @Override
+    public Object visit(ASTFloat node, Object data) {
+        return new PrimitiveFloat(Float.parseFloat(node.tokenValue));
     }
 
     @Override

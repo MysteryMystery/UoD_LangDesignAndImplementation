@@ -70,6 +70,7 @@ TOKEN [IGNORE_CASE]: {
 /* literals */
 TOKEN : {
     <INTEGER_LIT : <DECIMAL_LIT>>
+|   <FLOAT_LIT : <INTEGER_LIT> "." <INTEGER_LIT>>
 |   <#DECIMAL_LIT: ["0"-"9"] (["0"-"9"])*>
 |   <STRING_LITERAL: "\"" (~["\"","\\","\n","\r"]
       | "\\" (["n","t","b","r","f","\\","\'","\""]
@@ -326,13 +327,31 @@ void collection() #Collection :
 void dictionary() #Dictionary :
 {}
 {
-    <BRACE_L> ( (literal() | deference()) ":" (literal() | deference()) )* <BRACE_R>
+   <BRACE_L> ( (literal() | deference()) ":" (literal() | deference()) )* <BRACE_R>
+}
+
+void matrix() #Matrix :
+{}
+{
+   "#" ( LOOKAHEAD(2) matrixRow() )*
+}
+
+void matrixRow() #MatrixRow :
+{}
+{
+   ( numeric() )* "#"
+}
+
+void numeric():
+{}
+{
+    integer() | floating()
 }
 
 void literal():
 {}
 {
-    integer() | bool() | string() | collection() | dictionary()
+    LOOKAHEAD(2) numeric() | bool() | string() | collection() | dictionary() | matrix()
 }
 
 void functionIdentifier() #FunctionIdentifier :
@@ -365,6 +384,12 @@ void integer() #Int :
 {Token t;}
 {
     t = <INTEGER_LIT> { jjtThis.tokenValue = t.image; }
+}
+
+void floating() #Float :
+{Token t;}
+{
+    t = <FLOAT_LIT> {jjtThis.tokenValue = t.image; }
 }
 
 void bool() #Bool :

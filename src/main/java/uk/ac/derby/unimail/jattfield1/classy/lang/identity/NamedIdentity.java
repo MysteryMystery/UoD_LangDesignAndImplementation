@@ -5,6 +5,7 @@ import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.PrimitiveValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public abstract class NamedIdentity implements PrimitiveValue {
     private final String name;
@@ -128,6 +129,11 @@ public abstract class NamedIdentity implements PrimitiveValue {
     @Override
     public boolean toBool() {
         return getResult().toBool();
+    }
+
+    @Override
+    public Vector<Vector<PrimitiveValue>> toMatrix() {
+        return getResult().toMatrix();
     }
 
     @Override

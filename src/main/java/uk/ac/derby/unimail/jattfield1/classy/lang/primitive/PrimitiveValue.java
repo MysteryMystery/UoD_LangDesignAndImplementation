@@ -2,6 +2,7 @@ package uk.ac.derby.unimail.jattfield1.classy.lang.primitive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public interface PrimitiveValue {
     // Arithmatic
@@ -40,6 +41,7 @@ public interface PrimitiveValue {
     double toDouble();
     float toFloat();
     boolean toBool();
+    Vector<Vector<PrimitiveValue>> toMatrix();
     ArrayList<PrimitiveValue> toCollection();
     HashMap<PrimitiveValue, PrimitiveValue> toMap();
 }
