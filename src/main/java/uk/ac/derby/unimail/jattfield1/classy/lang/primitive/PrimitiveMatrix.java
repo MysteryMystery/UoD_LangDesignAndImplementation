@@ -71,6 +71,24 @@ public class PrimitiveMatrix extends AbstractPrimitiveValue{
         return new PrimitiveMatrix(newMatrix);
     }
 
+    @Override
+    public PrimitiveValue multiply(PrimitiveValue other) {
+        other = unpackVariable(other);
+        if (other instanceof PrimitiveInt || other instanceof PrimitiveFloat) {
+            Vector<Vector<PrimitiveValue>> newVector = new Vector<>();
+            for (int i = 0; i < boxed.size(); i++){
+                Vector<PrimitiveValue> x = new Vector<>();
+                for (int j = 0; j < boxed.get(0).size(); j++){
+                    x.add(boxed.get(i).get(j).multiply(other));
+                }
+                newVector.add(x);
+            }
+            return new PrimitiveMatrix(newVector);
+        }
+
+        throw new RuntimeException("Matrix x Matrix currently unsupported");
+    }
+
     private void validateAdditionSubtraction(Vector<Vector<PrimitiveValue>> otherMatrix){
         if (
                 otherMatrix.size() != boxed.size() //Equal rows
