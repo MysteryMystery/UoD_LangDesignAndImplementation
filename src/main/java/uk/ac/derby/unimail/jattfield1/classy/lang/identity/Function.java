@@ -13,13 +13,15 @@ public class Function {
     private int populatedParameterCount = 0;
     private SimpleNode functionBody;
     private String name;
+    private ExecutionContext parent;
 
-    public Function(String name, List<Constant> params, SimpleNode functionBody) {
+    public Function(String name, List<Constant> params, SimpleNode functionBody, ExecutionContext parent) {
         this.name = name;
         this.params = new LinkedHashMap<>();
         params.forEach(i -> this.params.put(i.getName(), i));
         paramIndexes = new ArrayList<>(this.params.keySet());
         this.functionBody = functionBody;
+        this.parent = parent;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class Function {
 
     public Object execute(ClassyParser parser){
         // set scope of parser to this scope, then reset at end then return value - by Parse.setScope etc.
-        parser.newScope();
+        parser.newScope(parent);
         injectArgsToScope(parser.getCurrentScope());
         //System.out.println("vars: " + parser.getCurrentScope().getVariables().values().stream().map(ni -> ni.getName() + ": " + ni.getResult()).collect(Collectors.joining(", ")));
 

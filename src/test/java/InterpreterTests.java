@@ -97,4 +97,10 @@ public class InterpreterTests {
 
     @Test
     public void matrixTest() {Classy.fromResource("matrix_test.classy");}
+
+    @Test
+    public void arrayProcessor(){Classy.fromResource("ArrayProcessor.classy");}
+
+    @Test
+    public void strm(){Classy.fromResource("string_manipulation.classy");}
 }

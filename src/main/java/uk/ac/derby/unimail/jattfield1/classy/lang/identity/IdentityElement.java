@@ -4,12 +4,14 @@ package uk.ac.derby.unimail.jattfield1.classy.lang.identity;
 import uk.ac.derby.unimail.jattfield1.classy.lang.ExecutionContext;
 import uk.ac.derby.unimail.jattfield1.classy.lang.primitive.PrimitiveValue;
 
+import java.util.UUID;
+
 public class IdentityElement extends NamedIdentity {
     private final NamedIdentity theCollection;
     private final PrimitiveValue index;
 
     public IdentityElement(NamedIdentity possessor, PrimitiveValue index) {
-        super("");
+        super(UUID.randomUUID().toString());
         this.theCollection = possessor;
         this.index = index;
     }
@@ -22,6 +24,11 @@ public class IdentityElement extends NamedIdentity {
     @Override
     public PrimitiveValue getResult() {
         return theCollection.getElement(index);
+    }
+
+    @Override
+    public String getType() {
+        return getResult().getType();
     }
 
     @Override
@@ -41,7 +48,7 @@ public class IdentityElement extends NamedIdentity {
 
     @Override
     public PrimitiveValue setElement(PrimitiveValue index, PrimitiveValue element) {
-        return getResult().setElement(index, element);
+        return theCollection.setElement(index, element);
     }
 
     @Override

@@ -1,16 +1,23 @@
-class Sorter {
-    +
-    Collection toSort = [1,3,4,2,7,6,5];
+class Integer {
+    -
+    Int boxed = 0;
 
     +
-    meth sort expects String direction {
-        Int i = 0;
-        while i < 7 {
-            print toSort:i;
-            i = i + 1;
-        }
+    meth add expects Int other {
+        boxed = boxed + other;
+    }
+
+    +
+    meth set expects Int i {
+        boxed = i;
+    }
+
+    +
+    meth get {
+        boxed;
     }
 }
 
-Sorter sorter = new Sorter;
-sorter->sort("asc");
+Integer x = new Integer;
+x->set(4);
+print x->get();

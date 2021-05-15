@@ -70,6 +70,7 @@ public class PrimitiveCollection extends AbstractPrimitiveValue {
 
     @Override
     public PrimitiveValue getElement(PrimitiveValue index) {
+        index = unpackVariable(index);
         if (! (index instanceof PrimitiveInt))
             throw new RuntimeException("Indexing for " + getType() + " is integer only.");
         return boxed.get(index.toInt());

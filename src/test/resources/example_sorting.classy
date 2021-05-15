@@ -6,6 +6,7 @@ class Sorter {
     meth sort {
         Int i = 0;
         while i < 7 {
+            toSort:i = 5;
             print toSort:i;
             i = i + 1;
         }

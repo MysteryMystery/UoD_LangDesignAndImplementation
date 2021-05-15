@@ -11,12 +11,17 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class Class implements PrimitiveValue, Cloneable {
-    private final ExecutionContext scope = new ExecutionContext();
+    private ExecutionContext scope = new ExecutionContext();
 
     private final String type;
 
     public Class(String type){
         this.type = type;
+    }
+
+    public Class(Class cls){
+        this(cls.getType());
+        this.scope = cls.getScope();
     }
 
     private void throwNotDefinedMethodException(String method){

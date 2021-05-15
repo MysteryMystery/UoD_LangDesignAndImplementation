@@ -1,3 +1,2 @@
 Manifest-Version: 1.0
 Main-Class: uk.ac.derby.unimail.jattfield1.classy.lang.Classy
-

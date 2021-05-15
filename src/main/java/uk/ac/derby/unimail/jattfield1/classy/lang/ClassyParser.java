@@ -31,7 +31,7 @@ public class ClassyParser implements ClassyVisitor {
         return instance;
     }
 
-    public void newScope() {
+    public void newScope(ExecutionContext parent) {
         this.currentScope = new ExecutionContext(currentScope);
     }
 
@@ -86,7 +86,7 @@ public class ClassyParser implements ClassyVisitor {
 
     @Override
     public Object visit(ASTFunctionDefinition node, Object data) {
-        Function function = new Function(getChild(node, 0), getChild(node, 1), (SimpleNode) node.jjtGetChild(2));
+        Function function = new Function(getChild(node, 0), getChild(node, 1), (SimpleNode) node.jjtGetChild(2), currentScope);
         currentScope.putFunction(function);
         return function;
     }
@@ -114,7 +114,7 @@ public class ClassyParser implements ClassyVisitor {
 
     @Override
     public Object visit(ASTClassDefinition node, Object data) {
-        Class newClass = new Class(getChild(node, 0));
+        Class newClass = new Class((String) getChild(node, 0));
         ExecutionContext lastScope = currentScope;
         currentScope = newClass.getScope();
         for (int i=0; i< node.jjtGetNumChildren(); i++)
@@ -147,7 +147,6 @@ public class ClassyParser implements ClassyVisitor {
                 throw new RuntimeException("Method " + getChild(node, 1) + " does not exist for " + embedded.getType());
             List<PrimitiveValue> args = getChild(node, 2);
             args.forEach(function::setPositionalArg);
-
             return swapScope(embeddedContext, () -> function.execute(this));
         }
 
@@ -192,7 +191,7 @@ public class ClassyParser implements ClassyVisitor {
     public Object visit(ASTAssignmentInstantation node, Object data) {
         Class cls = currentScope.getClassyClass(getChild(node, 0));
         if (cls != null)
-            return cls;
+            return new Class(cls);
         throw new RuntimeException("Class " + (String) getChild(node, 0) + " does not exist.");
     }
 
@@ -290,7 +289,8 @@ public class ClassyParser implements ClassyVisitor {
     public Object visit(ASTAssignment node, Object data) {
         Variable variable = new Variable(getChild(node, 1));
         variable.setType(getChild(node, 0));
-        variable.setData(getChild(node, 2));
+        PrimitiveValue v = getChild(node, 2);
+        variable.setData(v instanceof NamedIdentity ? ((NamedIdentity)v).getResult() : v);
         variable.saveToScope(currentScope);
         return variable;
     }
@@ -330,7 +330,8 @@ public class ClassyParser implements ClassyVisitor {
     @Override
     public Object visit(ASTReassignment node, Object data) {
         NamedIdentity variable = getChild(node, 0);
-        variable.setData(getChild(node, 1));
+        PrimitiveValue v = getChild(node, 1);
+        variable.setData(v);
         variable.saveToScope(currentScope);
         return variable;
     }

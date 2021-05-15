@@ -1,0 +1,18 @@
+Int s = 10;
+Int x = ? (s > 6) { 5; } : { 0; };
+print x;
+
+String myString = "This is a big string saying hellp world!";
+print "Current string: " + myString;
+
+myString:32 = "o";
+print "Corrected string: " + myString;
+
+myString = myString + " My chosen number is " + x + "! \n note the new line too \n";
+
+print myString;
+
+print "Most primitives can concat out of the box: " + [1,2,3,4] + {"key" : "value"} + true;
+
+String repeat = " hello";
+print "There is an echo:" + repeat * 5;

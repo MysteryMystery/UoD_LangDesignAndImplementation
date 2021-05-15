@@ -18,72 +18,14 @@ public class PrimitiveString extends AbstractPrimitiveValue{
 
     @Override
     public PrimitiveValue multiply(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue divide(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue subtract(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue unaryPlus() {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue unarySubtract() {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue equalTo(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue notEqualTo(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue greaterThan(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue lessThan(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue greaterThanEqualTo(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue lessThanEqualTo(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue or(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue and(PrimitiveValue other) {
-        return null;
-    }
-
-    @Override
-    public PrimitiveValue not() {
-        return null;
+        if ((other = unpackVariable(other)) instanceof PrimitiveInt){
+            String s = boxed;
+            for(int i = 0; i < other.toInt(); i++){
+                boxed += s;
+            }
+            return new PrimitiveString(boxed) ;
+        }
+        throw new RuntimeException("Cannot multiply string by " + other.getType());
     }
 
     @Override
